@@ -1,0 +1,6 @@
+{
+  "name": "AvaRamp",
+  "description": "A crypto fiat on-ramp landing page named 'AvaRamp' for trading AVAX and USDT with VND.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

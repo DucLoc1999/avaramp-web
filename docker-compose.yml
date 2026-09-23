@@ -1,0 +1,47 @@
+# AvaRamp web channel — single service (SPA + backend on :3002).
+#
+# The backend serves the built SPA and the API on one origin, and forwards
+# unmatched /api/* + /landing/* to payment_svc via PAYMENT_SVC_BASE_URL.
+# Put real values in backend/.env (DB, Google, USER_JWT_SECRET, S3, OCR,
+# PAYMENT_SVC_BASE_URL, PAYMENT_SVC_PARTNER_APP_KEY).
+#
+# Usage: docker compose up -d --build
+
+services:
+  avarampl:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    image: avarampl:latest
+    container_name: avarampl
+    restart: unless-stopped
+    ports:
+      - '${AVARAMP_HOST_PORT:-3002}:3002'
+    env_file:
+      - path: ./backend/.env
+        required: false
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: 3002
+      HOST: 0.0.0.0
+      SPA_DIST_DIR: ../dist/spa
+    volumes:
+      - ./backend/logs:/app/backend/logs
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "require('http').get('http://localhost:3002/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '10m'
+        max-file: '3'

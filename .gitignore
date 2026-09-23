@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Build output
+build/
+dist/
+frontend/dist/
+backend/dist/
+coverage/
+
+# Local env & secrets
+.env
+.env.*
+!.env.example
+config.json
+
+# Runtime data / logs
+logs/
+data/
+*.log
+stellar_ramp.db
+
+# Editor / OS
+.DS_Store
+
+# Local agent scratch
+AGENTS.md
+CONTEXT.md
+scratch/

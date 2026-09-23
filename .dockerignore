@@ -1,0 +1,16 @@
+.git
+.gitignore
+node_modules
+**/node_modules
+**/dist
+frontend/dist
+backend/dist
+.env
+.env.*
+!.env.example
+logs
+data
+*.log
+*.md
+coverage
+scratch
