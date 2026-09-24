@@ -16,7 +16,7 @@ services:
       args:
         VITE_BASE_URL: ''
     image: avarampl:latest
-    container_name: avarampl
+    container_name: avaramp
     restart: unless-stopped
     ports:
       - '${AVARAMP_HOST_PORT:-3002}:3002'
