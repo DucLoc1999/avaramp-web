@@ -141,7 +141,6 @@ export async function meRoutes(app: FastifyInstance): Promise<void> {
           token_address: { type: 'string', description: 'C-Chain ERC-20 contract. Leave empty for native AVAX.' },
           asset_code: { type: 'string', description: 'Asset code: "AVAX" (native) or "USDT" (ERC-20)' },
           payment_method_id: { type: 'integer', description: 'ID of user CRYPTO payment method' },
-          pay_gateway: { type: 'string', enum: ['bank', 'napas'], default: 'bank' },
         },
       },
       response: {

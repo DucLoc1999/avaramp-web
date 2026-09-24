@@ -142,7 +142,6 @@ export interface MeDepositBody {
   token_address?: string;
   asset_code: string;
   payment_method_id: number;
-  pay_gateway?: 'bank' | 'napas';
   callback?: string;
 }
 
@@ -195,7 +194,6 @@ export async function handleMeDeposit(
     recipient: paymentMethod.wallet_address,
     callback: req.body.callback || '',
     user_id: String(req.user!.id),
-    pay_gateway: req.body.pay_gateway,
   });
 
   return reply.status(result.status).send(result.body);

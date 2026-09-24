@@ -11,7 +11,6 @@ export interface CreateDepositPayload {
   recipient: string;
   callback: string;
   user_id: string;
-  pay_gateway?: 'bank' | 'napas';
 }
 
 export interface CreateWithdrawalPayload {

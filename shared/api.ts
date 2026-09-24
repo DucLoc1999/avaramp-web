@@ -123,7 +123,6 @@ export interface CreateDepositInput {
   token_address?: string;
   asset_code: string;
   payment_method_id: number;
-  pay_gateway?: "bank" | "napas";
 }
 
 export interface CreateWithdrawInput {
