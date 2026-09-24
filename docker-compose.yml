@@ -13,6 +13,8 @@ services:
       context: .
       dockerfile: Dockerfile
       target: production
+      args:
+        VITE_BASE_URL: ''
     image: avarampl:latest
     container_name: avarampl
     restart: unless-stopped

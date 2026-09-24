@@ -14,6 +14,8 @@ RUN npm ci
 
 # --- STAGE 2: build SPA + backend ---
 FROM deps AS build
+ARG VITE_BASE_URL=
+ENV VITE_BASE_URL=${VITE_BASE_URL}
 COPY . .
 RUN npm run build -w @avarampl/frontend && npm run build -w @avarampl/backend
 
