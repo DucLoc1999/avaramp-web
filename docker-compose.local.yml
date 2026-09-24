@@ -8,6 +8,24 @@
 # Usage: docker compose -f docker-compose.local.yml up --build
 
 services:
+  db:
+    image: postgres:16-alpine
+    container_name: avarampl-local-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: avaramp
+    ports:
+      - '${AVARAMP_DB_PORT:-5433}:5432'
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d avaramp']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   avarampl:
     build:
       context: .
@@ -16,6 +34,9 @@ services:
     image: avarampl:local
     container_name: avarampl-local
     restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
     ports:
       - '${AVARAMP_HOST_PORT:-3002}:3002'
     env_file:
@@ -26,6 +47,12 @@ services:
       PORT: 3002
       HOST: 0.0.0.0
       SPA_DIST_DIR: ../dist/spa
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: avaramp
+      DB_SSL: 'false'
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     volumes:
@@ -47,3 +74,6 @@ services:
       options:
         max-size: '10m'
         max-file: '3'
+
+volumes:
+  db-data:

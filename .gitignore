@@ -27,3 +27,6 @@ stellar_ramp.db
 AGENTS.md
 CONTEXT.md
 scratch/
+
+# Local USDC buy/sell end-to-end test (requires local payment_svc + partner keys)
+scripts/test-buy-sell-usdc.mjs

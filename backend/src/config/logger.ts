@@ -29,17 +29,25 @@ const fileStream = pino.destination({
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
-const consoleStream: DestinationStream = isDevelopment
-  ? pino.transport({
-      target: 'pino-pretty',
+const createConsoleStream = (): DestinationStream => {
+  if (!isDevelopment) return process.stdout;
+  try {
+    const target = require.resolve('pino-pretty');
+    return pino.transport({
+      target,
       options: {
         colorize: true,
         translateTime: 'HH:MM:ss.l',
         ignore: 'pid,hostname',
         singleLine: true,
       },
-    })
-  : process.stdout;
+    });
+  } catch {
+    return process.stdout;
+  }
+};
+
+const consoleStream: DestinationStream = createConsoleStream();
 
 export const logger = pino(
   {
