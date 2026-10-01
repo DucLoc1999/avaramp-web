@@ -33,21 +33,21 @@ export const BuySellModal = ({ isOpen, onClose }: BuySellModalProps) => {
         if (e.target === overlayRef.current) onClose();
       }}
     >
-      <div className="relative w-full max-w-md rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900">
+      <div className="relative w-full max-w-md rounded-2xl border border-white/10 bg-[#131417] shadow-2xl">
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-300"
+          className="absolute right-4 top-4 rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-white/10 hover:text-slate-200"
           aria-label="Close"
         >
           <X className="h-5 w-5" />
         </button>
 
         <div className="px-6 pb-6 pt-8">
-          <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">
+          <h2 className="text-xl font-bold text-white">
             {t("modal.title")}
           </h2>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+          <p className="mt-1 text-sm text-slate-400">
             {t("modal.description")}
           </p>
 
@@ -57,16 +57,16 @@ export const BuySellModal = ({ isOpen, onClose }: BuySellModalProps) => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={onClose}
-              className="group flex items-center gap-4 rounded-xl border border-slate-200 bg-slate-50 px-5 py-4 transition-colors hover:bg-blue-100 dark:border-slate-700 dark:bg-slate-800/50 dark:hover:bg-blue-950"
+              className="group flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 px-5 py-4 transition-colors hover:border-[#E84142]/40 hover:bg-[#E84142]/10"
             >
               <span className="text-2xl" aria-hidden="true">
                 ✈
               </span>
               <div>
-                <p className="font-semibold text-slate-800 transition-colors group-hover:text-blue-700 dark:text-slate-200 dark:group-hover:text-blue-300">
+                <p className="font-semibold text-slate-100 transition-colors group-hover:text-[#FF5A5B]">
                   {t("modal.telegramLabel")}
                 </p>
-                <p className="text-xs text-slate-500 transition-colors group-hover:text-blue-500 dark:text-slate-400 dark:group-hover:text-blue-400">
+                <p className="text-xs text-slate-400 transition-colors group-hover:text-[#E84142]">
                   {t("modal.telegramSub")}
                 </p>
               </div>
@@ -75,16 +75,16 @@ export const BuySellModal = ({ isOpen, onClose }: BuySellModalProps) => {
             <a
               href="/ramp"
               onClick={onClose}
-              className="group flex items-center gap-4 rounded-xl border border-slate-200 bg-slate-50 px-5 py-4 transition-colors hover:bg-blue-100 dark:border-slate-700 dark:bg-slate-800/50 dark:hover:bg-blue-950"
+              className="group flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 px-5 py-4 transition-colors hover:border-[#E84142]/40 hover:bg-[#E84142]/10"
             >
               <span className="text-2xl" aria-hidden="true">
                 🌐
               </span>
               <div>
-                <p className="font-semibold text-slate-800 transition-colors group-hover:text-blue-700 dark:text-slate-200 dark:group-hover:text-blue-300">
+                <p className="font-semibold text-slate-100 transition-colors group-hover:text-[#FF5A5B]">
                   {t("modal.websiteLabel")}
                 </p>
-                <p className="text-xs text-slate-500 transition-colors group-hover:text-blue-500 dark:text-slate-400 dark:group-hover:text-blue-400">
+                <p className="text-xs text-slate-400 transition-colors group-hover:text-[#E84142]">
                   {t("modal.websiteSub")}
                 </p>
               </div>

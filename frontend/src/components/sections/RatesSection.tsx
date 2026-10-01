@@ -1,921 +1,331 @@
-import { useEffect, useRef, useState } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartLegend,
-  ChartLegendContent,
-} from "../ui/chart";
-import {
-  AllRatesResponse,
-  AllHistoryResponse,
-  P2PHistoryPoint,
-} from "@shared/api";
-import { SectionHeading } from "./SectionHeading";
+import { useState } from "react";
+import { Check, Zap, ArrowRight, Sparkles } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-const API_BASE = import.meta.env.VITE_BASE_URL || "";
-const CACHE_TTL = 60_000;
-const clientCache = new Map<string, { data: unknown; expiresAt: number }>();
-
-async function fetchCached<T>(url: string): Promise<T | null> {
-  const hit = clientCache.get(url);
-  if (hit && Date.now() < hit.expiresAt) return hit.data as T;
-  try {
-    const res = await fetch(url);
-    if (!res.ok) return null;
-    const data: T = await res.json();
-    clientCache.set(url, { data, expiresAt: Date.now() + CACHE_TTL });
-    return data;
-  } catch {
-    return null;
-  }
-}
-
-interface RateRow {
-  asset: string;
-  network: string;
-  subLabel: string;
+type Comparison = {
+  name: string;
   logo: string;
-  buy: number | null;
-  sell: number | null;
   isFeatured?: boolean;
-  isCompetitor?: boolean;
-}
-
-function fmt(n: number | null) {
-  if (n === null) return null;
-  return n.toLocaleString("vi-VN");
-}
-
-function SkeletonCell({ right = false }: { right?: boolean }) {
-  return (
-    <td className={`px-5 py-4 ${right ? "text-right" : ""}`}>
-      <div className="h-4 w-20 animate-pulse rounded bg-slate-200 dark:bg-slate-700 inline-block" />
-    </td>
-  );
-}
-
-const EXCHANGE_CHART_CONFIG = {
-  buy: { label: "Buy", color: "rgb(74 222 128)" },
-  sell: { label: "Sell", color: "rgb(251 146 60)" },
+  highlightKey: string;
+  feeRate: number;
+  settlementTime: string;
+  avax: { buy: number; sell: number };
+  usdc: { buy: number; sell: number };
 };
 
-const COMPARISON_CONFIG = {
-  ours: { label: "AvaRamp", color: "rgb(74 222 128)" },
-  binance: { label: "Binance P2P", color: "rgb(251 191 36)" },
-  okx: { label: "OKX P2P", color: "rgb(99 102 241)" },
-  bybit: { label: "Bybit P2P", color: "rgb(236 72 153)" },
-};
+const COMPARISONS: Comparison[] = [
+  {
+    name: "AvaRamp",
+    logo: "/logo.png",
+    isFeatured: true,
+    highlightKey: "rates.highlightOurs",
+    feeRate: 0.005,
+    settlementTime: "~20s",
+    avax: { buy: 728000, sell: 724500 },
+    usdc: { buy: 25410, sell: 25380 },
+  },
+  {
+    name: "Binance P2P",
+    logo: "/exchanges/binance.png",
+    highlightKey: "rates.highlightBinance",
+    feeRate: 0.018,
+    settlementTime: "10 - 25 min",
+    avax: { buy: 742000, sell: 712000 },
+    usdc: { buy: 26030, sell: 24770 },
+  },
+  {
+    name: "Bybit P2P",
+    logo: "/exchanges/bybit.png",
+    highlightKey: "rates.highlightBybit",
+    feeRate: 0.022,
+    settlementTime: "15 - 30 min",
+    avax: { buy: 745000, sell: 710000 },
+    usdc: { buy: 26070, sell: 24730 },
+  },
+  {
+    name: "OKX P2P",
+    logo: "/exchanges/okx.png",
+    highlightKey: "rates.highlightOkx",
+    feeRate: 0.019,
+    settlementTime: "10 - 20 min",
+    avax: { buy: 741500, sell: 713000 },
+    usdc: { buy: 26040, sell: 24760 },
+  },
+];
 
-type AnyConfig = Record<string, { label: string; color: string }>;
-
-function makeTooltip(config: AnyConfig) {
-  return function TooltipContent({
-    active,
-    payload,
-    label,
-  }: {
-    active?: boolean;
-    payload?: any[];
-    label?: string;
-  }) {
-    if (!active || !payload?.length) return null;
-    return (
-      <div className="rounded-lg border border-border bg-background/95 px-3 py-2.5 text-xs shadow-xl backdrop-blur-sm min-w-44">
-        <p className="mb-2 font-semibold text-foreground/60 tracking-wide">
-          {label}
-        </p>
-        {payload.map((entry: any) => {
-          const cfg = config[entry.dataKey as string];
-          return (
-            <div key={entry.dataKey} className="flex items-center gap-2 py-0.5">
-              <span
-                className="h-2.5 w-2.5 shrink-0 rounded-sm"
-                style={{ backgroundColor: entry.color }}
-              />
-              <span className="text-muted-foreground">
-                {cfg?.label ?? entry.dataKey}
-              </span>
-              <span
-                className="ml-auto pl-4 font-mono font-semibold tabular-nums"
-                style={{ color: entry.color }}
-              >
-                {Number(entry.value).toLocaleString("vi-VN")} ₫
-              </span>
-            </div>
-          );
-        })}
-      </div>
-    );
-  };
-}
-
-const ExchangeTooltip = makeTooltip(EXCHANGE_CHART_CONFIG);
-const ComparisonTooltip = makeTooltip(COMPARISON_CONFIG);
-
-function formatLabel(ts: number): string {
-  const d = new Date(ts);
-  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")} ${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}`;
-}
-
-interface ExchangeChartProps {
-  title: string;
-  history: P2PHistoryPoint[];
-  tall?: boolean;
-  config: AnyConfig;
-  tooltipContent: React.ReactElement;
-  dataKeys: { key: string; color: string }[];
-}
-
-function ExchangeChart({
-  title,
-  history,
-  tall,
-  config,
-  tooltipContent,
-  dataKeys,
-}: ExchangeChartProps) {
-  const { t } = useTranslation();
-  const chartData = history.map((row) => ({
-    date: formatLabel(row.created_at),
-    buy: row.buy,
-    sell: row.sell,
-  }));
-
-  return (
-    <div className="relative overflow-hidden rounded-2xl border border-border bg-background/60 backdrop-blur-xl transition hover:border-primary/40">
-      <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
-      <div className="p-8">
-        <p className="mb-6 text-sm font-semibold uppercase tracking-[0.24em] text-primary/80">
-          {title}
-        </p>
-        {chartData.length === 0 ? (
-          <p
-            className={`${tall ? "h-96" : "h-64"} flex items-center justify-center text-sm text-muted-foreground`}
-          >
-            {t("rates.noHistory")}
-          </p>
-        ) : (
-          <ChartContainer
-            config={config}
-            className={`${tall ? "h-96" : "h-64"} w-full`}
-          >
-            <LineChart
-              data={chartData}
-              margin={{ top: 4, right: 8, left: 0, bottom: 0 }}
-            >
-              <CartesianGrid
-                strokeDasharray="3 3"
-                className="stroke-border/30"
-              />
-              <XAxis
-                dataKey="date"
-                tick={{ fontSize: 10 }}
-                tickLine={false}
-                axisLine={false}
-                interval="preserveStartEnd"
-              />
-              <YAxis
-                tickLine={false}
-                axisLine={false}
-                tick={{ fontSize: 11 }}
-                tickFormatter={(v) => `${(v / 1000).toFixed(1)}k`}
-                domain={["auto", "auto"]}
-                width={40}
-              />
-              <ChartTooltip content={tooltipContent} />
-              {dataKeys.map(({ key, color }) => (
-                <Line
-                  key={key}
-                  type="monotone"
-                  dataKey={key}
-                  stroke={color}
-                  strokeWidth={2}
-                  dot={false}
-                  activeDot={{ r: 4 }}
-                />
-              ))}
-              <ChartLegend content={<ChartLegendContent />} />
-            </LineChart>
-          </ChartContainer>
-        )}
-      </div>
-    </div>
-  );
-}
-
-interface ComparisonChartProps {
-  title: string;
-  side: "buy" | "sell";
-  historyData: AllHistoryResponse | null;
-}
-
-function ComparisonChart({ title, side, historyData }: ComparisonChartProps) {
-  const { t } = useTranslation();
-  const ours = historyData?.our ?? [];
-  const binance = historyData?.binance ?? [];
-  const okx = historyData?.okx ?? [];
-  const bybit = historyData?.bybit ?? [];
-
-  const merged = new Map<
-    number,
-    {
-      ts: number;
-      date: string;
-      ours?: number;
-      binance?: number;
-      okx?: number;
-      bybit?: number;
-    }
-  >();
-  for (const row of ours)
-    merged.set(row.created_at, {
-      ...merged.get(row.created_at),
-      ts: row.created_at,
-      date: formatLabel(row.created_at),
-      ours: row[side] ?? undefined,
-    });
-  for (const row of binance)
-    merged.set(row.created_at, {
-      ...merged.get(row.created_at),
-      ts: row.created_at,
-      date: formatLabel(row.created_at),
-      binance: row[side] ?? undefined,
-    });
-  for (const row of okx)
-    merged.set(row.created_at, {
-      ...merged.get(row.created_at),
-      ts: row.created_at,
-      date: formatLabel(row.created_at),
-      okx: row[side] ?? undefined,
-    });
-  for (const row of bybit)
-    merged.set(row.created_at, {
-      ...merged.get(row.created_at),
-      ts: row.created_at,
-      date: formatLabel(row.created_at),
-      bybit: row[side] ?? undefined,
-    });
-  const chartData = Array.from(merged.values()).sort((a, b) => a.ts - b.ts);
-
-  return (
-    <div className="relative overflow-hidden rounded-2xl border border-border bg-background/60 backdrop-blur-xl transition hover:border-primary/40">
-      <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
-      <div className="p-8">
-        <p className="mb-6 text-sm font-semibold uppercase tracking-[0.24em] text-primary/80">
-          {title}
-        </p>
-        {chartData.length === 0 ? (
-          <p className="h-64 flex items-center justify-center text-sm text-muted-foreground">
-            {t("rates.noHistory")}
-          </p>
-        ) : (
-          <ChartContainer config={COMPARISON_CONFIG} className="h-64 w-full">
-            <LineChart
-              data={chartData}
-              margin={{ top: 4, right: 8, left: 0, bottom: 0 }}
-            >
-              <CartesianGrid
-                strokeDasharray="3 3"
-                className="stroke-border/30"
-              />
-              <XAxis
-                dataKey="date"
-                tick={{ fontSize: 10 }}
-                tickLine={false}
-                axisLine={false}
-                interval="preserveStartEnd"
-              />
-              <YAxis
-                tickLine={false}
-                axisLine={false}
-                tick={{ fontSize: 11 }}
-                tickFormatter={(v) => `${(v / 1000).toFixed(1)}k`}
-                domain={["auto", "auto"]}
-                width={40}
-              />
-              <ChartTooltip content={<ComparisonTooltip />} />
-              <Line
-                type="monotone"
-                dataKey="ours"
-                stroke="var(--color-ours)"
-                strokeWidth={2.5}
-                dot={false}
-                activeDot={{ r: 4 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="binance"
-                stroke="var(--color-binance)"
-                strokeWidth={2}
-                dot={false}
-                activeDot={{ r: 4 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="okx"
-                stroke="var(--color-okx)"
-                strokeWidth={2}
-                dot={false}
-                activeDot={{ r: 4 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="bybit"
-                stroke="var(--color-bybit)"
-                strokeWidth={2}
-                dot={false}
-                activeDot={{ r: 4 }}
-              />
-              <ChartLegend content={<ChartLegendContent />} />
-            </LineChart>
-          </ChartContainer>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function LiveCountdown({ t }: { t: (key: string, options?: Record<string, unknown>) => string }) {
-  const [secondsLeft, setSecondsLeft] = useState(CACHE_TTL / 1000);
-  const startRef = useRef(Date.now());
-
-  useEffect(() => {
-    const tick = setInterval(() => {
-      const elapsed = Math.floor((Date.now() - startRef.current) / 1000);
-      const remaining = CACHE_TTL / 1000 - (elapsed % (CACHE_TTL / 1000));
-      setSecondsLeft(remaining);
-    }, 1000);
-    return () => clearInterval(tick);
-  }, []);
-
-  return (
-    <span className="inline-flex items-center gap-1.5">
-      <span className="relative flex h-2 w-2">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-      </span>
-      <span>{t("rates.refreshingIn", { seconds: secondsLeft })}</span>
-    </span>
-  );
+function fmt(n: number) {
+  return Math.round(n).toLocaleString("vi-VN");
 }
 
 export const RatesSection = () => {
   const { t } = useTranslation();
-  const [rows, setRows] = useState<RateRow[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
-  const [range, setRange] = useState<7 | 30>(7);
-  const [historyData, setHistoryData] = useState<AllHistoryResponse | null>(
-    null,
-  );
-  const [selectedAsset, setSelectedAsset] = useState<string>("USDT");
-  const isFirstLoad = useRef(true);
-
-  async function load() {
-    if (isFirstLoad.current) {
-      isFirstLoad.current = false;
-    } else {
-      setRefreshing(true);
-      await new Promise((r) => setTimeout(r, 150));
-    }
-
-    const rates = await fetchCached<AllRatesResponse>(
-      `${API_BASE}/landing/p2p-rates`,
-    );
-
-    setRows([
-      {
-        asset: "USDT",
-        network: "AvaRamp",
-        subLabel: "Avalanche",
-        logo: "/exchanges/avaRamp.png",
-        buy: rates?.our.usdt.buy ?? null,
-        sell: rates?.our.usdt.sell ?? null,
-        isFeatured: true,
-      },
-      {
-        asset: "AVAX",
-        network: "AvaRamp",
-        subLabel: "Avalanche",
-        logo: "/exchanges/avaRamp.png",
-        buy: rates?.our.avax.buy ?? null,
-        sell: rates?.our.avax.sell ?? null,
-        isFeatured: true,
-      },
-      {
-        asset: "USDT",
-        network: "Binance P2P",
-        subLabel: "BSC (BEP20)",
-        logo: "/exchanges/binance.png",
-        buy: rates?.binance.usdt.bestBuyPrice ?? null,
-        sell: rates?.binance.usdt.bestSellPrice ?? null,
-        isCompetitor: true,
-      },
-      {
-        asset: "AVAX",
-        network: "Binance P2P",
-        subLabel: "Binance",
-        logo: "/exchanges/binance.png",
-        buy: rates?.binance.avax.bestBuyPrice ?? null,
-        sell: rates?.binance.avax.bestSellPrice ?? null,
-        isCompetitor: true,
-      },
-      {
-        asset: "USDT",
-        network: "OKX P2P",
-        subLabel: "OKX",
-        logo: "/exchanges/okx.png",
-        buy: rates?.okx.usdt.bestBuyPrice ?? null,
-        sell: rates?.okx.usdt.bestSellPrice ?? null,
-        isCompetitor: true,
-      },
-      {
-        asset: "AVAX",
-        network: "OKX P2P",
-        subLabel: "OKX",
-        logo: "/exchanges/okx.png",
-        buy: rates?.okx.avax.bestBuyPrice ?? null,
-        sell: rates?.okx.avax.bestSellPrice ?? null,
-        isCompetitor: true,
-      },
-      {
-        asset: "USDT",
-        network: "Bybit P2P",
-        subLabel: "Bybit",
-        logo: "/exchanges/bybit.png",
-        buy: rates?.bybit.usdt.bestBuyPrice ?? null,
-        sell: rates?.bybit.usdt.bestSellPrice ?? null,
-        isCompetitor: true,
-      },
-      {
-        asset: "AVAX",
-        network: "Bybit P2P",
-        subLabel: "Bybit",
-        logo: "/exchanges/bybit.png",
-        buy: rates?.bybit.avax.bestBuyPrice ?? null,
-        sell: rates?.bybit.avax.bestSellPrice ?? null,
-        isCompetitor: true,
-      },
-    ]);
-    setLoading(false);
-    setRefreshing(false);
-  }
-
-  async function loadHistory() {
-    const data = await fetchCached<AllHistoryResponse>(
-      `${API_BASE}/landing/p2p-history?days=${range}`,
-    );
-    if (data) setHistoryData(data);
-  }
-
-  useEffect(() => {
-    load();
-    const interval = setInterval(load, CACHE_TTL);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    loadHistory();
-    const interval = setInterval(loadHistory, CACHE_TTL);
-    return () => clearInterval(interval);
-  }, [range]);
-
-  const ROWS_COUNT = 6;
-
-  const visibleRows = rows.filter(
-    (row) => row.buy !== null || row.sell !== null,
-  );
-
-  const assets = Array.from(new Set(visibleRows.map((r) => r.asset)));
-  useEffect(() => {
-    if (assets.length > 0 && !assets.includes(selectedAsset)) {
-      setSelectedAsset(assets[0]);
-    }
-  }, [assets.join(","), selectedAsset]);
-
-  const filteredRows = visibleRows.filter((r) => r.asset === selectedAsset);
-
-  const bestBuy =
-    filteredRows.length > 0
-      ? Math.min(...filteredRows.map((r) => r.buy ?? Infinity))
-      : null;
-  const bestSell =
-    filteredRows.length > 0
-      ? Math.max(...filteredRows.map((r) => r.sell ?? -Infinity))
-      : null;
-
-  const competitorRows = filteredRows.filter((r) => r.isCompetitor);
-  const ourRows = filteredRows.filter((r) => r.isFeatured);
+  const [token, setToken] = useState<"avax" | "usdc">("avax");
 
   return (
-    <section className="relative bg-slate-50 dark:bg-slate-900 py-24">
-      <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-slate-200 to-transparent" />
-      <div className="section-container space-y-6">
-        <SectionHeading
-          id="rates"
-          eyebrow={t("rates.eyebrow")}
-          title={t("rates.title")}
-          description={t("rates.description")}
-        />
-        <div className="flex items-center justify-end gap-3">
-          <label className="text-xs text-slate-600 dark:text-slate-400 leading-none">
-            {t("rates.asset")}
-          </label>
-          <select
-            value={selectedAsset}
-            onChange={(e) => setSelectedAsset(e.target.value)}
-            className="rounded-md border border-border px-3 py-1.5 text-sm h-9"
-          >
-            {assets.map((a) => (
-              <option key={a} value={a}>
-                {a}
-              </option>
-            ))}
-          </select>
+    <section
+      id="rates"
+      className="relative border-t border-white/5 bg-[#0E0F14] py-24"
+    >
+      <div className="section-container relative">
+        {/* Header */}
+        <div className="mx-auto mb-12 flex max-w-3xl flex-col items-center gap-4 text-center">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E84142]/30 bg-[#E84142]/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#E84142]">
+            <Sparkles className="h-3.5 w-3.5" />
+            {t("rates.eyebrow")}
+          </span>
+          <h2 className="text-2xl font-extrabold tracking-tight text-white sm:text-4xl">
+            {t("rates.title")}
+          </h2>
+          <p className="text-sm leading-relaxed text-slate-400 sm:text-base">
+            {t("rates.description")}
+          </p>
+
+          {/* Token toggle */}
+          <div className="mt-4 inline-flex rounded-xl border border-white/10 bg-[#1A1B22] p-1">
+            <button
+              type="button"
+              onClick={() => setToken("avax")}
+              className={`rounded-lg px-5 py-2 text-xs font-bold transition-all ${
+                token === "avax"
+                  ? "bg-[#E84142] text-white shadow-md"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              {t("rates.tokenAvax")}
+            </button>
+            <button
+              type="button"
+              onClick={() => setToken("usdc")}
+              className={`rounded-lg px-5 py-2 text-xs font-bold transition-all ${
+                token === "usdc"
+                  ? "bg-[#2775CA] text-white shadow-md"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              {t("rates.tokenUsdc")}
+            </button>
+          </div>
         </div>
 
-        {/* Rate table — desktop */}
-        <div className="hidden sm:block">
-          <table className="w-full text-sm">
+        {/* Comparison table — desktop */}
+        <div className="hidden overflow-x-auto rounded-2xl border border-white/10 bg-[#14151B] shadow-2xl sm:block">
+          <table className="w-full text-left text-sm">
             <thead>
-              <tr className="border-b border-slate-200 dark:border-slate-700">
-                <th className="pb-3 text-left text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 pl-2">
-                  {t("rates.asset")}
-                </th>
-                <th className="pb-3 text-right text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                  {t("rates.buyVnd")}
-                </th>
-                <th className="pb-3 text-right text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                  {t("rates.sellVnd")}
-                </th>
-                <th className="pb-3" />
+              <tr className="border-b border-white/10 bg-white/2 text-xs font-bold uppercase tracking-wider text-slate-400">
+                <th className="px-6 py-4">{t("rates.colExchange")}</th>
+                <th className="px-6 py-4">{t("rates.colBuyRate")}</th>
+                <th className="px-6 py-4">{t("rates.colSellRate")}</th>
+                <th className="px-6 py-4">{t("rates.colFee")}</th>
+                <th className="px-6 py-4">{t("rates.colSpeed")}</th>
+                <th className="px-6 py-4 text-right">{t("rates.colAction")}</th>
               </tr>
             </thead>
-            <tbody>
-              {loading ? (
-                Array.from({ length: ROWS_COUNT }).map((_, i) => (
+            <tbody className="divide-y divide-white/5 font-medium">
+              {COMPARISONS.map((item) => {
+                const rate = item[token];
+                return (
                   <tr
-                    key={i}
-                    className="border-b border-slate-100 dark:border-slate-800"
+                    key={item.name}
+                    className={`transition-colors ${
+                      item.isFeatured
+                        ? "border-l-4 border-l-[#E84142] bg-linear-to-r from-[#E84142]/10 via-[#E84142]/5 to-transparent font-semibold"
+                        : "text-slate-300 hover:bg-white/2"
+                    }`}
                   >
-                    <SkeletonCell />
-                    <SkeletonCell right />
-                    <SkeletonCell right />
-                    <td className="px-5 py-4 w-36" />
-                  </tr>
-                ))
-              ) : (
-                <>
-                  {/* Our featured rows */}
-                  {ourRows.map((ourRow) => (
-                    <tr
-                      key={`${ourRow.asset}-${ourRow.network}`}
-                      className="border-b border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/60 dark:bg-emerald-950/20"
-                    >
-                      <td className="pl-2 pr-5 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white dark:bg-slate-800 overflow-hidden shrink-0 ring-2 ring-slate-200 dark:ring-slate-600">
-                            <img
-                              src={ourRow.logo}
-                              alt={ourRow.network}
-                              className="h-full w-full object-contain"
-                            />
+                    <td className="px-6 py-5">
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-white/5 p-1">
+                          <img
+                            src={item.logo}
+                            alt={item.name}
+                            className="h-full w-full object-contain"
+                          />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span
+                              className={`font-bold ${item.isFeatured ? "text-base text-white" : "text-slate-200"}`}
+                            >
+                              {item.name}
+                            </span>
+                            {item.isFeatured && (
+                              <span className="rounded-full bg-[#E84142] px-2 py-0.5 text-[10px] font-extrabold text-white">
+                                {t("rates.recommended")}
+                              </span>
+                            )}
                           </div>
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <span className="font-bold text-slate-900 dark:text-slate-100">
-                                {ourRow.asset}
-                              </span>
-                              <span className="rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-bold text-white leading-none">
-                                {t("rates.ourRate")}
-                              </span>
-                            </div>
-                            <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                              {ourRow.subLabel}
-                            </div>
+                          <div className="mt-0.5 text-xs text-slate-400">
+                            {t(item.highlightKey)}
                           </div>
                         </div>
-                      </td>
-                      <td className="px-5 py-4 text-right">
-                        <div
-                          className={`inline-flex flex-col items-end transition-opacity duration-300 ${refreshing ? "opacity-0" : "opacity-100"}`}
+                      </div>
+                    </td>
+                    <td className="px-6 py-5 font-mono">
+                      <div className="text-sm font-bold text-white sm:text-base">
+                        {fmt(rate.buy)} ₫
+                      </div>
+                      {item.isFeatured && (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide text-emerald-400">
+                          <Check className="h-3 w-3" /> {t("rates.bestRate")}
+                        </span>
+                      )}
+                    </td>
+                    <td className="px-6 py-5 font-mono">
+                      <div className="text-sm font-bold text-white sm:text-base">
+                        {fmt(rate.sell)} ₫
+                      </div>
+                      {item.isFeatured && (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide text-emerald-400">
+                          <Check className="h-3 w-3" /> {t("rates.bestRate")}
+                        </span>
+                      )}
+                    </td>
+                    <td className="px-6 py-5">
+                      <span
+                        className={`inline-flex rounded-lg px-2.5 py-1 font-mono text-xs font-bold ${
+                          item.isFeatured
+                            ? "border border-emerald-500/30 bg-emerald-500/20 text-emerald-400"
+                            : "bg-white/5 text-slate-400"
+                        }`}
+                      >
+                        {(item.feeRate * 100).toFixed(1)}%
+                      </span>
+                    </td>
+                    <td className="px-6 py-5 text-xs text-slate-300">
+                      <div className="flex items-center gap-1.5">
+                        {item.isFeatured ? (
+                          <Zap className="h-4 w-4 fill-amber-400 text-amber-400" />
+                        ) : (
+                          <span className="h-1.5 w-1.5 rounded-full bg-slate-500" />
+                        )}
+                        <span
+                          className={
+                            item.isFeatured
+                              ? "font-bold text-amber-300"
+                              : "text-slate-400"
+                          }
                         >
-                          <span className="font-bold text-emerald-600 text-base tabular-nums">
-                            {ourRow.buy !== null ? (
-                              `${fmt(ourRow.buy)} ₫`
-                            ) : (
-                              <span className="text-slate-400 text-sm font-medium">
-                                N/A
-                              </span>
-                            )}
-                          </span>
-                          {ourRow.buy !== null &&
-                            bestBuy !== null && (
-                              <span className="mt-0.5 text-[10px] font-bold text-emerald-500 uppercase tracking-wide">
-                                {ourRow.buy === bestBuy
-                                  ? t("rates.bestRate")
-                                  : t("rates.lowestFee")}
-                              </span>
-                            )}
-                        </div>
-                      </td>
-                      <td className="px-5 py-4 text-right">
-                        <div
-                          className={`inline-flex flex-col items-end transition-opacity duration-300 ${refreshing ? "opacity-0" : "opacity-100"}`}
-                        >
-                          <span className="font-bold text-red-500 text-base tabular-nums">
-                            {ourRow.sell !== null ? (
-                              `${fmt(ourRow.sell)} ₫`
-                            ) : (
-                              <span className="text-slate-400 text-sm font-medium">
-                                N/A
-                              </span>
-                            )}
-                          </span>
-                          {ourRow.sell !== null &&
-                            bestSell !== null && (
-                              <span className="mt-0.5 text-[10px] font-bold text-emerald-500 uppercase tracking-wide">
-                                {ourRow.sell === bestSell
-                                  ? t("rates.bestRate")
-                                  : t("rates.lowestFee")}
-                              </span>
-                            )}
-                        </div>
-                      </td>
-                      <td className="px-5 py-4 w-36 text-right">
+                          {item.settlementTime}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-5 text-right">
+                      {item.isFeatured ? (
                         <a
                           href={import.meta.env.VITE_TELEGRAM_LINK}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center rounded-lg bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 px-4 py-2 text-xs font-bold text-white transition-colors shadow-sm shadow-emerald-200 dark:shadow-emerald-900/40"
+                          className="inline-flex items-center gap-1.5 rounded-xl bg-[#E84142] px-4 py-2 text-xs font-bold text-white shadow-md transition-all hover:bg-[#FF5A5B] active:scale-95"
                         >
-                          {t("rates.buyNow")}
+                          <span>{t("rates.buyNow")}</span>
+                          <ArrowRight className="h-3.5 w-3.5" />
                         </a>
-                      </td>
-                    </tr>
-                  ))}
-
-                  {competitorRows.length > 0 && (
-                    <>
-                      {/* Competitor group header */}
-                      <tr>
-                        <td
-                          colSpan={4}
-                          className="px-2 pt-5 pb-2 text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500"
-                        >
-                          {t("rates.marketComparison")}
-                        </td>
-                      </tr>
-
-                      {competitorRows.map((row, i) => (
-                        <tr
-                          key={`${row.asset}-${row.network}`}
-                          className={`border-b border-slate-100 dark:border-slate-800 transition hover:bg-slate-50/80 dark:hover:bg-slate-800/40 ${i === competitorRows.length - 1 ? "border-b-0" : ""}`}
-                        >
-                          <td className="pl-2 pr-5 py-4">
-                            <div className="flex items-center gap-3">
-                              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white dark:bg-slate-800 overflow-hidden shrink-0 ring-2 ring-slate-200 dark:ring-slate-600">
-                                <img
-                                  src={row.logo}
-                                  alt={row.network}
-                                  className="h-full w-full object-contain"
-                                />
-                              </div>
-                              <div>
-                                <span className="font-semibold text-slate-700 dark:text-slate-300">
-                                  {row.network}
-                                </span>
-                                <div className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
-                                  {row.subLabel}
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                          <td
-                            className={`px-5 py-4 text-right font-semibold text-slate-600 dark:text-slate-400 tabular-nums transition-opacity duration-300 ${refreshing ? "opacity-0" : "opacity-100"}`}
-                          >
-                            {row.buy !== null ? (
-                              `${fmt(row.buy)} ₫`
-                            ) : (
-                              <span className="text-slate-400 dark:text-slate-600 text-xs font-medium">
-                                N/A
-                              </span>
-                            )}
-                          </td>
-                          <td
-                            className={`px-5 py-4 text-right font-semibold text-slate-600 dark:text-slate-400 tabular-nums transition-opacity duration-300 ${refreshing ? "opacity-0" : "opacity-100"}`}
-                          >
-                            {row.sell !== null ? (
-                              `${fmt(row.sell)} ₫`
-                            ) : (
-                              <span className="text-slate-400 dark:text-slate-600 text-xs font-medium">
-                                N/A
-                              </span>
-                            )}
-                          </td>
-                          <td className="px-5 py-4 w-36" />
-                        </tr>
-                      ))}
-                    </>
-                  )}
-                </>
-              )}
+                      ) : (
+                        <span className="text-xs text-slate-400">
+                          {t("rates.middleman")}
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
-          <div className="mt-3 flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500">
-            <LiveCountdown t={t} />
-            <span className="mx-1">·</span>
-            <span>{t("rates.finalRate")}</span>
-          </div>
         </div>
 
-        {/* Rate cards — mobile */}
+        {/* Comparison cards — mobile */}
         <div className="flex flex-col gap-3 sm:hidden">
-          {loading
-            ? Array.from({ length: ROWS_COUNT }).map((_, i) => (
-                <div
-                  key={i}
-                  className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-5 space-y-3"
-                >
-                  <div className="h-4 w-32 animate-pulse rounded bg-slate-200 dark:bg-slate-700" />
-                  <div className="h-4 w-24 animate-pulse rounded bg-slate-200 dark:bg-slate-700" />
-                </div>
-              ))
-            : visibleRows.map((row) => (
-                <div
-                  key={`${row.asset}-${row.network}`}
-                  className={`rounded-2xl border p-5 ${
-                    row.isFeatured
-                      ? "border-emerald-200 dark:border-emerald-800 bg-emerald-50/60 dark:bg-emerald-950/20"
-                      : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800"
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2.5">
-                      <div
-                        className={`flex h-9 w-9 items-center justify-center rounded-full overflow-hidden ring-2 ring-slate-200 dark:ring-slate-600 bg-white dark:bg-slate-800`}
-                      >
-                        <img
-                          src={row.logo}
-                          alt={row.network}
-                          className="h-full w-full object-contain"
-                        />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-1.5">
-                          <span
-                            className={`font-bold ${row.isFeatured ? "text-slate-900 dark:text-slate-100" : "text-slate-700 dark:text-slate-300"}`}
-                          >
-                            {row.isFeatured ? t("rates.ourRate") : row.network}
-                          </span>
-                          {row.isFeatured && (
-                            <span className="rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-bold text-white leading-none">
-                              {t("rates.ourRate")}
-                            </span>
-                          )}
-                        </div>
-                        <div className="text-xs text-slate-400 mt-0.5">
-                          {row.subLabel}
-                        </div>
-                      </div>
+          {COMPARISONS.map((item) => {
+            const rate = item[token];
+            return (
+              <div
+                key={item.name}
+                className={`rounded-2xl border p-5 ${
+                  item.isFeatured
+                    ? "border-[#E84142]/40 bg-linear-to-r from-[#E84142]/10 to-transparent"
+                    : "border-white/10 bg-[#14151B]"
+                }`}
+              >
+                <div className="mb-4 flex items-center gap-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-white/5 p-1">
+                    <img
+                      src={item.logo}
+                      alt={item.name}
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-white">{item.name}</span>
+                      {item.isFeatured && (
+                        <span className="rounded-full bg-[#E84142] px-2 py-0.5 text-[10px] font-extrabold text-white">
+                          {t("rates.recommended")}
+                        </span>
+                      )}
+                    </div>
+                    <div className="mt-0.5 text-xs text-slate-400">
+                      {t(item.highlightKey)}
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-3 mb-4">
-                    <div className="rounded-xl bg-emerald-50 dark:bg-emerald-950/30 px-3 py-2.5">
-                      <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-600/70 mb-1">
-                        {t("rates.buy")}
-                      </p>
-                      <p
-                        className={`font-bold text-emerald-600 tabular-nums text-sm transition-opacity duration-300 ${refreshing ? "opacity-0" : "opacity-100"}`}
-                      >
-                        {row.buy !== null ? (
-                          `${fmt(row.buy)} ₫`
-                        ) : (
-                          <span className="text-slate-400 font-medium">
-                            N/A
-                          </span>
-                        )}
-                      </p>
-                      {row.buy !== null &&
-                        bestBuy !== null && (
-                          <p className="text-[10px] font-bold text-emerald-500 mt-0.5 uppercase">
-                            {row.buy === bestBuy
-                              ? t("rates.bestRate")
-                              : t("rates.lowestFee")}
-                          </p>
-                        )}
-                    </div>
-                    <div className="rounded-xl bg-red-50 dark:bg-red-950/20 px-3 py-2.5">
-                      <p className="text-[10px] font-bold uppercase tracking-wider text-red-500/70 mb-1">
-                        {t("rates.sell")}
-                      </p>
-                      <p
-                        className={`font-bold text-red-500 tabular-nums text-sm transition-opacity duration-300 ${refreshing ? "opacity-0" : "opacity-100"}`}
-                      >
-                        {row.sell !== null ? (
-                          `${fmt(row.sell)} ₫`
-                        ) : (
-                          <span className="text-slate-400 font-medium">
-                            N/A
-                          </span>
-                        )}
-                      </p>
-                      {row.sell !== null &&
-                        bestSell !== null && (
-                          <p className="text-[10px] font-bold text-emerald-500 mt-0.5 uppercase">
-                            {row.sell === bestSell
-                              ? t("rates.bestRate")
-                              : t("rates.lowestFee")}
-                          </p>
-                        )}
-                    </div>
-                  </div>
-                  {row.isFeatured && (
-                    <a
-                      href={import.meta.env.VITE_TELEGRAM_LINK}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center w-full rounded-xl bg-emerald-500 hover:bg-emerald-600 active:bg-emerald-700 px-4 py-2.5 text-sm font-bold text-white transition-colors"
-                    >
-                      {t("rates.buyNow")}
-                    </a>
-                  )}
                 </div>
-              ))}
-          <div className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-slate-500 px-1">
-            <LiveCountdown t={t} />
-            <span className="mx-1">·</span>
-            <span>{t("rates.finalRate")}</span>
-          </div>
+                <div className="mb-4 grid grid-cols-2 gap-3">
+                  <div className="rounded-xl bg-white/5 px-3 py-2.5">
+                    <p className="mb-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                      {t("rates.colBuyRate")}
+                    </p>
+                    <p className="font-mono text-sm font-bold text-white">
+                      {fmt(rate.buy)} ₫
+                    </p>
+                  </div>
+                  <div className="rounded-xl bg-white/5 px-3 py-2.5">
+                    <p className="mb-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                      {t("rates.colSellRate")}
+                    </p>
+                    <p className="font-mono text-sm font-bold text-white">
+                      {fmt(rate.sell)} ₫
+                    </p>
+                  </div>
+                </div>
+                <div className="mb-4 flex items-center justify-between text-xs">
+                  <span
+                    className={`inline-flex rounded-lg px-2.5 py-1 font-mono font-bold ${
+                      item.isFeatured
+                        ? "border border-emerald-500/30 bg-emerald-500/20 text-emerald-400"
+                        : "bg-white/5 text-slate-400"
+                    }`}
+                  >
+                    {(item.feeRate * 100).toFixed(1)}%
+                  </span>
+                  <span className="flex items-center gap-1.5 text-slate-400">
+                    {item.isFeatured && (
+                      <Zap className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                    )}
+                    {item.settlementTime}
+                  </span>
+                </div>
+                {item.isFeatured ? (
+                  <a
+                    href={import.meta.env.VITE_TELEGRAM_LINK}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex w-full items-center justify-center gap-1.5 rounded-xl bg-[#E84142] px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#FF5A5B]"
+                  >
+                    <span>{t("rates.buyNow")}</span>
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </a>
+                ) : (
+                  <p className="text-center text-xs text-slate-400">
+                    {t("rates.middleman")}
+                  </p>
+                )}
+              </div>
+            );
+          })}
         </div>
 
-        {/* Range selector */}
-        <div className="flex justify-end gap-2">
-          {([7, 30] as const).map((r) => (
-            <button
-              key={r}
-              onClick={() => setRange(r)}
-              className={`rounded-lg px-4 py-1.5 text-xs font-semibold transition-all duration-150 ${
-                range === r
-                  ? "bg-primary text-primary-foreground shadow-md shadow-primary/30"
-                  : "border border-border text-muted-foreground hover:border-primary/60 hover:bg-primary/10 hover:text-primary hover:shadow-sm"
-              }`}
-            >
-              {t("rates.days", { count: r })}
-            </button>
-          ))}
-        </div>
-
-        {/* USDT our price chart */}
-        <ExchangeChart
-          title={t("rates.chartOurTitle")}
-          history={historyData?.our ?? []}
-          config={EXCHANGE_CHART_CONFIG}
-          tooltipContent={<ExchangeTooltip />}
-          dataKeys={[
-            { key: "buy", color: "var(--color-buy)" },
-            { key: "sell", color: "var(--color-sell)" },
-          ]}
-        />
-
-        {/* USDT P2P comparison charts */}
-        <div className="grid gap-6 lg:grid-cols-2">
-          <ComparisonChart
-            title={t("rates.chartCompareBuy")}
-            side="buy"
-            historyData={historyData}
-          />
-          <ComparisonChart
-            title={t("rates.chartCompareSell")}
-            side="sell"
-            historyData={historyData}
-          />
-        </div>
-
-        {/* Linked with over */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-          <div className="relative z-10">
-            <h2 className="text-4xl sm:text-5xl lg:text-[56px] font-bold text-slate-900 dark:text-slate-100 leading-[1.15] tracking-tight mb-8 lg:mb-0">
-              {t("rates.linkedWith")}
-              <br />
-              <span className="text-emerald-500">{t("rates.banks")}</span>
-              <br />
-              <span className="text-emerald-500">{t("rates.ewallets")}</span>
-            </h2>
-          </div>
-
-          <div className="relative w-full flex justify-center lg:justify-end">
-            <div className="relative bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm p-4 sm:p-8 rounded-4xl border border-slate-200/60 dark:border-slate-700/60 shadow-inner w-full max-w-150">
-              <div className="absolute inset-0 rounded-4xl shadow-[inset_0_0_20px_rgba(0,0,0,0.02)] border border-white/80" />
-              <img
-                src="/payment_methods_logos.png"
-                alt="50+ Vietnamese Banks and E-wallets"
-                className="w-full h-auto object-contain drop-shadow-xl relative z-10 rounded-2xl"
-              />
-            </div>
-          </div>
+        {/* Savings tip */}
+        <div className="mt-6 flex items-center gap-3 rounded-xl border border-emerald-500/20 bg-linear-to-r from-emerald-500/10 via-emerald-500/5 to-transparent p-4 text-xs font-medium text-emerald-300 sm:text-sm">
+          <span>{t("rates.savingsTip")}</span>
         </div>
       </div>
     </section>

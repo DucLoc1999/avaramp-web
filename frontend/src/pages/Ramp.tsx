@@ -238,20 +238,21 @@ export default function RampPage({ onLogout }: RampPageProps) {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-linear-to-b from-slate-100 via-slate-50 to-white dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+    <div className="bg-grid-pattern flex min-h-screen flex-col bg-[#0B0C0E] text-slate-100">
       <RampHeader onLogout={onLogout} onSettings={() => {
         setSettingsTab("account");
         setSettingsOpen(true);
       }} />
 
-      <main className="flex flex-1 items-center justify-center px-4 py-8">
+      <main className="relative flex flex-1 items-center justify-center px-4 py-8">
+        <div className="pointer-events-none absolute top-1/4 left-1/2 -z-10 h-100 w-125 -translate-x-1/2 -translate-y-1/2 bg-linear-to-tr from-[#E84142]/15 via-rose-600/10 to-transparent blur-[120px]" />
         <div className="w-full max-w-md">
           {/* Main Swap Card */}
           <div className="relative">
-            <div className="absolute -inset-1 bg-linear-to-r from-blue-400 to-indigo-500 rounded-3xl blur opacity-20"></div>
-            <div className="relative bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
+            <div className="absolute -inset-1 bg-linear-to-r from-[#E84142] to-[#FF5A5B] rounded-3xl blur opacity-20"></div>
+            <div className="relative bg-[#131418] rounded-3xl shadow-2xl border border-white/10 overflow-hidden">
               {/* Header */}
-              <div className="bg-linear-to-r from-blue-600 to-cyan-500 p-6 text-white">
+              <div className="bg-linear-to-r from-[#E84142] to-[#FF5A5B] p-6 text-white">
                 <div className="flex items-center justify-between mb-4">
                   <h1 className="text-2xl font-bold">{t("ramp.menuTitle")}</h1>
                   <button
@@ -302,7 +303,7 @@ export default function RampPage({ onLogout }: RampPageProps) {
               </div>
 
               {/* Asset Selector */}
-              <div className="p-6 border-b border-slate-200 dark:border-slate-700">
+              <div className="p-6 border-b border-white/10">
                 <div className="flex gap-2">
                   {(["USDT", "AVAX"] as AssetType[]).map((a) => (
                     <button
@@ -315,8 +316,8 @@ export default function RampPage({ onLogout }: RampPageProps) {
                       }}
                       className={`flex-1 py-3 rounded-xl font-bold text-sm transition-all ${
                         asset === a
-                          ? "bg-blue-600 text-white shadow-lg"
-                          : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
+                          ? "bg-[#E84142] text-white shadow-lg shadow-[#E84142]/25"
+                          : "bg-[#1A1B22] text-slate-300 hover:bg-[#242630]"
                       }`}
                     >
                       {a}
@@ -330,14 +331,14 @@ export default function RampPage({ onLogout }: RampPageProps) {
                 {/* Pay Input */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+                    <span className="text-xs font-semibold text-slate-400 uppercase tracking-wide">
                       {t("hero.youPay")}
                     </span>
-                    <span className="text-xs font-bold text-blue-600 dark:text-blue-400">
+                    <span className="text-xs font-bold text-[#FF5A5B]">
                       {mode === "buy" ? "VND" : asset}
                     </span>
                   </div>
-                  <div className="bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
+                  <div className="bg-[#1A1B22] rounded-xl border border-white/10 focus-within:border-[#E84142] focus-within:ring-2 focus-within:ring-[#E84142]/20 transition-all">
                     <input
                       type="text"
                       inputMode="decimal"
@@ -347,14 +348,14 @@ export default function RampPage({ onLogout }: RampPageProps) {
                         setInputSide("pay");
                       }}
                       placeholder="0"
-                      className="w-full px-4 py-4 text-2xl font-bold text-slate-800 dark:text-slate-100 outline-none bg-transparent"
+                      className="w-full px-4 py-4 text-2xl font-bold text-white outline-none bg-transparent placeholder-slate-600"
                     />
                   </div>
                 </div>
 
                 {/* Arrow */}
                 <div className="flex justify-center -my-2">
-                  <div className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
+                  <div className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-[#E84142]/20 text-[#FF5A5B]">
                     <ArrowDownUp className="h-5 w-5" />
                   </div>
                 </div>
@@ -362,14 +363,14 @@ export default function RampPage({ onLogout }: RampPageProps) {
                 {/* Receive Input */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+                    <span className="text-xs font-semibold text-slate-400 uppercase tracking-wide">
                       {t("hero.youReceive")}
                     </span>
-                    <span className="text-xs font-bold text-blue-600 dark:text-blue-400">
+                    <span className="text-xs font-bold text-[#FF5A5B]">
                       {mode === "buy" ? asset : "VND"}
                     </span>
                   </div>
-                  <div className="bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
+                  <div className="bg-[#1A1B22] rounded-xl border border-white/10 focus-within:border-[#E84142] focus-within:ring-2 focus-within:ring-[#E84142]/20 transition-all">
                     <input
                       type="text"
                       inputMode="decimal"
@@ -380,16 +381,16 @@ export default function RampPage({ onLogout }: RampPageProps) {
                       }}
                       placeholder={ratesLoading ? "…" : "0"}
                       disabled={ratesLoading}
-                      className="w-full px-4 py-4 text-2xl font-bold text-slate-800 dark:text-slate-100 outline-none bg-transparent disabled:opacity-50"
+                      className="w-full px-4 py-4 text-2xl font-bold text-white outline-none bg-transparent placeholder-slate-600 disabled:opacity-50"
                     />
                   </div>
                 </div>
 
                 {/* Fee Display */}
                 {rates && (
-                  <p className="text-xs text-slate-400 dark:text-slate-500 px-1">
+                  <p className="text-xs text-slate-500 px-1">
                     {t("hero.fee")}:{" "}
-                    <span className="font-semibold text-slate-500">
+                    <span className="font-semibold text-slate-400">
                       {feeDisplay || "0"} ₫
                     </span>{" "}
                     ({(((mode === "buy" ? rates.fee_rate_buy : rates.fee_rate_sell) ?? 0.008) * 100).toFixed(1)}%
@@ -402,10 +403,10 @@ export default function RampPage({ onLogout }: RampPageProps) {
                 {/* Rate Display */}
                 {rates && (
                   <div className="pt-2 text-left">
-                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                    <p className="text-sm text-slate-400">
                       1 {asset} ={" "}
                       <span
-                        className={`font-bold ${mode === "buy" ? "text-emerald-600 dark:text-emerald-400" : "text-red-500 dark:text-red-400"}`}
+                        className={`font-bold ${mode === "buy" ? "text-emerald-400" : "text-[#FF5A5B]"}`}
                       >
                         {(mode === "buy" ? rates.buy : rates.sell).toLocaleString("vi-VN")}
                       </span>{" "}
@@ -416,9 +417,9 @@ export default function RampPage({ onLogout }: RampPageProps) {
 
                 {/* Progress Bar */}
                 <div className="pt-2">
-                  <div className="h-1 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                  <div className="h-1 bg-white/10 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-blue-500 rounded-full transition-all"
+                      className="h-full bg-[#E84142] rounded-full transition-all"
                       style={{ width: `${progress}%` }}
                     />
                   </div>
@@ -428,7 +429,7 @@ export default function RampPage({ onLogout }: RampPageProps) {
                 <button
                   onClick={handleTrade}
                   disabled={!payInput || parse(payInput) <= 0}
-                  className="w-full py-4 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold text-lg transition-all shadow-lg hover:shadow-xl"
+                  className="w-full py-4 rounded-xl bg-linear-to-r from-[#E84142] to-[#FF5A5B] hover:brightness-110 disabled:from-slate-700 disabled:to-slate-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-lg transition-all shadow-lg shadow-[#E84142]/30 hover:shadow-xl"
                 >
                   {mode === "buy" ? t("hero.buy") : t("hero.sell")} {asset}
                 </button>

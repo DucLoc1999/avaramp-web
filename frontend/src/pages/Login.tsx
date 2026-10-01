@@ -97,52 +97,56 @@ export default function LoginPage({ onGoogleLogin }: LoginPageProps) {
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID as string | undefined;
 
   return (
-    <div className="flex min-h-screen flex-col bg-linear-to-b from-slate-100 via-slate-50 to-white dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+    <div className="bg-grid-pattern flex min-h-screen flex-col bg-[#0B0C0E] text-slate-100">
       <RampHeader />
 
-      <main className="flex flex-1 items-start justify-center px-4 py-10">
+      <main className="relative flex flex-1 items-start justify-center px-4 py-10">
+        <div className="pointer-events-none absolute top-1/4 left-1/2 -z-10 h-100 w-125 -translate-x-1/2 -translate-y-1/2 bg-linear-to-tr from-[#E84142]/15 via-rose-600/10 to-transparent blur-[120px]" />
         <div className="w-full max-w-md">
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xl dark:border-slate-700 dark:bg-slate-900">
-            <div className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-300">
-              <ShieldCheck className="h-6 w-6" />
-            </div>
+          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#131418] p-6 shadow-2xl backdrop-blur-xl">
+            <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-[#E84142]/20 blur-3xl" />
+            <div className="relative">
+              <div className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[#E84142]/20 text-[#FF5A5B]">
+                <ShieldCheck className="h-6 w-6" />
+              </div>
 
-            <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-              Sign in to AvaRamp
-            </h1>
-            <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-              Use your Google account to access the trading menu.
-            </p>
+              <h1 className="text-2xl font-bold text-white">
+                Sign in to AvaRamp
+              </h1>
+              <p className="mt-2 text-sm text-slate-300">
+                Use your Google account to access the trading menu.
+              </p>
 
-            <div className="mt-6 space-y-3">
-              {clientId ? (
-                <>
-                  <div
-                    style={{
-                      borderRadius: 12,
-                      overflow: "hidden",
-                      minHeight: 44,
-                    }}
-                  >
-                    <div ref={googleBtnRef} className="w-full" />
-                  </div>
-                  {googleLoading && (
-                    <p className="text-center text-sm text-slate-500 dark:text-slate-400">
-                      Signing in…
-                    </p>
-                  )}
-                  {googleError && (
-                    <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700 dark:border-rose-900/50 dark:bg-rose-950/30 dark:text-rose-200">
-                      {googleError}
+              <div className="mt-6 space-y-3">
+                {clientId ? (
+                  <>
+                    <div
+                      style={{
+                        borderRadius: 12,
+                        overflow: "hidden",
+                        minHeight: 44,
+                      }}
+                    >
+                      <div ref={googleBtnRef} className="w-full" />
                     </div>
-                  )}
-                </>
-              ) : (
-                <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700 dark:border-amber-800/50 dark:bg-amber-950/30 dark:text-amber-300">
-                  <strong>VITE_GOOGLE_CLIENT_ID</strong> is not set. Google
-                  Sign-In is unavailable.
-                </div>
-              )}
+                    {googleLoading && (
+                      <p className="text-center text-sm text-slate-400">
+                        Signing in…
+                      </p>
+                    )}
+                    {googleError && (
+                      <div className="rounded-xl border border-[#E84142]/40 bg-[#E84142]/10 px-4 py-3 text-sm text-[#FF5A5B]">
+                        {googleError}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className="rounded-xl border border-amber-800/50 bg-amber-950/30 px-4 py-3 text-sm text-amber-300">
+                    <strong>VITE_GOOGLE_CLIENT_ID</strong> is not set. Google
+                    Sign-In is unavailable.
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

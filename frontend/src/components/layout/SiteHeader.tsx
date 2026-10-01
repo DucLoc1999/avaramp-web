@@ -1,4 +1,4 @@
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { Menu, X, Moon, Sun, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "../LanguageSwitcher";
@@ -24,6 +24,8 @@ export const SiteHeader = () => {
     { label: t("nav.whyAvaRamp"), href: "#features" },
     { label: t("nav.process"), href: "#process" },
     { label: t("nav.liveRates"), href: "#rates" },
+    { label: t("nav.supported"), href: "#supported" },
+    { label: t("nav.developers"), href: "#developers" },
     { label: t("nav.faq"), href: "#faq" },
   ];
 
@@ -32,44 +34,59 @@ export const SiteHeader = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 shadow-sm backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/90">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3">
-            <img
-              src="/exchanges/avaRamp.png"
-              alt="AvaRamp"
-              className="h-10 w-10 rounded-lg border border-slate-200 dark:border-slate-600"
-            />
-            <span className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-              Ava<span className="text-blue-600">Ramp</span>
-            </span>
-            <span className="hidden items-center rounded-full border border-slate-200 bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600 md:inline-flex dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400">
-              USDT / VND
-            </span>
-          </div>
+      <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-[#0E0F12]/90 backdrop-blur-md">
+        <div className="flex items-center justify-center gap-2 border-b border-[#E84142]/20 bg-gradient-to-r from-[#E84142]/20 via-[#E84142]/10 to-transparent px-4 py-1.5 text-center text-xs">
+          <span className="inline-flex items-center rounded bg-[#E84142] px-1.5 py-0.5 text-[10px] font-bold text-white">
+            LIVE
+          </span>
+          <span className="font-medium text-slate-300">
+            {t("header.banner")}
+          </span>
+        </div>
 
-          <nav className="hidden items-center gap-8 md:flex">
+        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+          <a href="#" className="flex items-center gap-2.5 select-none">
+            <img
+              src="/logo.png"
+              alt="AvaRamp"
+              className="h-10 w-10 rounded-lg border border-white/10"
+            />
+            <div className="flex flex-col justify-center leading-none">
+              <div className="flex items-center text-xl font-extrabold tracking-tight">
+                <span className="text-[#E84142]">Ava</span>
+                <span className="text-white">Ramp</span>
+                <span className="ml-1.5 rounded border border-[#E84142]/30 bg-[#E84142]/15 px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#E84142]">
+                  AVAX
+                </span>
+              </div>
+              <span className="mt-0.5 text-[9px] font-semibold uppercase tracking-[0.22em] text-slate-400">
+                On &amp; Off Ramp Platform
+              </span>
+            </div>
+          </a>
+
+          <nav className="hidden items-center gap-7 lg:flex">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-slate-600 transition-colors hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400"
+                className="whitespace-nowrap text-sm font-medium text-slate-300 transition-colors hover:text-[#E84142]"
               >
                 {link.label}
               </a>
             ))}
           </nav>
 
-          <div className="hidden items-center gap-4 md:flex">
+          <div className="hidden shrink-0 items-center gap-3 lg:flex">
             <LanguageSwitcher />
             <button
               type="button"
               onClick={() => setIsDark((d) => !d)}
-              className="rounded-lg border border-slate-200 p-2 text-slate-500 transition-colors hover:text-blue-600 dark:border-slate-700 dark:text-slate-400 dark:hover:text-blue-400"
+              className="shrink-0 rounded-lg border border-white/10 bg-white/5 p-2 text-slate-300 transition-colors hover:bg-white/10"
               aria-label="Toggle Dark Mode"
             >
               {isDark ? (
-                <Sun className="h-5 w-5" />
+                <Sun className="h-5 w-5 text-amber-400" />
               ) : (
                 <Moon className="h-5 w-5" />
               )}
@@ -77,16 +94,17 @@ export const SiteHeader = () => {
             <button
               type="button"
               onClick={() => setIsModalOpen(true)}
-              className="inline-flex items-center justify-center rounded-lg border border-transparent bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-gradient-to-r from-[#E84142] to-[#FF5A5B] px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-[#E84142]/20 transition-all hover:brightness-110 active:scale-[0.98]"
             >
               {t("nav.buySell")}
+              <ArrowRight className="h-4 w-4" />
             </button>
           </div>
 
           <button
             type="button"
             onClick={handleToggleMenu}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-slate-200 transition-colors hover:bg-white/10 lg:hidden"
             aria-label={isMenuOpen ? "Close navigation" : "Open navigation"}
           >
             {isMenuOpen ? (
@@ -98,21 +116,21 @@ export const SiteHeader = () => {
         </div>
 
         {isMenuOpen && (
-          <div className="border-t border-slate-200 bg-white/95 dark:border-slate-700 dark:bg-slate-900/95 md:hidden">
-            <nav className="flex flex-col gap-2 px-4 py-4 text-sm font-medium text-slate-700 dark:text-slate-300">
+          <div className="border-t border-white/10 bg-[#0E0F12] lg:hidden">
+            <nav className="flex flex-col gap-2 px-4 py-4 text-sm font-medium text-slate-200">
               {NAV_LINKS.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
                   onClick={handleCloseMenu}
-                  className="rounded-xl px-3 py-2 transition-colors hover:bg-slate-100 hover:text-blue-600 dark:hover:bg-slate-800 dark:hover:text-blue-400"
+                  className="rounded-xl px-3 py-2 transition-colors hover:bg-white/5 hover:text-[#E84142]"
                 >
                   {link.label}
                 </a>
               ))}
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-900">
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div className="flex-1 min-w-0">
+                  <div className="min-w-0 flex-1">
                     <LanguageSwitcher />
                   </div>
                   <button
@@ -121,11 +139,11 @@ export const SiteHeader = () => {
                       setIsDark((d) => !d);
                       handleCloseMenu();
                     }}
-                    className="inline-flex h-10 items-center justify-center rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                    className="inline-flex h-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 transition-colors hover:bg-white/10"
                     aria-label={isDark ? t("nav.lightMode") : t("nav.darkMode")}
                   >
                     {isDark ? (
-                      <Sun className="h-5 w-5" />
+                      <Sun className="h-5 w-5 text-amber-400" />
                     ) : (
                       <Moon className="h-5 w-5" />
                     )}
@@ -136,7 +154,7 @@ export const SiteHeader = () => {
                       setIsModalOpen(true);
                       handleCloseMenu();
                     }}
-                    className="inline-flex h-10 items-center justify-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
+                    className="inline-flex h-10 items-center justify-center rounded-xl bg-gradient-to-r from-[#E84142] to-[#FF5A5B] px-4 py-2 text-sm font-bold text-white shadow-sm transition-all hover:brightness-110"
                   >
                     {t("nav.buySell")}
                   </button>

@@ -80,14 +80,14 @@ function statusKey(state: number): string {
 function statusColor(state: number): string {
   switch (state) {
     case OrderState.COMPLETED:
-      return "text-emerald-600 dark:text-emerald-400";
+      return "text-emerald-400";
     case OrderState.FAILED:
     case OrderState.CANCELLED:
-      return "text-rose-600 dark:text-rose-400";
+      return "text-rose-400";
     case OrderState.PROCESSING:
-      return "text-blue-600 dark:text-blue-400";
+      return "text-[#FF5A5B]";
     default:
-      return "text-amber-600 dark:text-amber-400";
+      return "text-amber-400";
   }
 }
 
@@ -211,7 +211,7 @@ export function BuySellFlowModal({
       <ModalShell2 asset={asset} tradeType={tradeType} onClose={onClose}>
         <div className="flex flex-col items-center gap-4 py-10 px-2 text-center">
           <AlertCircle className="h-10 w-10 text-amber-500" />
-          <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+          <p className="text-sm font-semibold text-slate-200">
             {tradeType === "sell"
               ? t("buySellFlowModal.kycRequiredSell")
               : t("buySellFlowModal.kycRequiredBuy")}
@@ -222,7 +222,7 @@ export function BuySellFlowModal({
               onClose();
               onGoToKyc?.();
             }}
-            className="rounded-xl bg-blue-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+            className="rounded-xl bg-linear-to-r from-[#E84142] to-[#FF5A5B] px-5 py-2 text-sm font-semibold text-white transition-all hover:brightness-110 shadow-lg shadow-[#E84142]/30"
           >
             {t("buySellFlowModal.goToKyc")}
           </button>
@@ -243,18 +243,18 @@ export function BuySellFlowModal({
 
         <div className="p-5 space-y-3">
           {/* Summary of what user is doing */}
-          <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 space-y-1.5 dark:border-slate-700 dark:bg-slate-800/50">
+          <div className="rounded-xl border border-white/10 bg-[#1A1B22] px-4 py-3 space-y-1.5">
             <div className="flex items-baseline justify-between gap-3">
-              <span className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
+              <span className="text-xs font-semibold uppercase tracking-widest text-slate-500">
                 {tradeType === "buy"
                   ? t("buySellFlowModal.estimateYouPay")
                   : t("buySellFlowModal.estimateYouReceive")}
               </span>
-              <span className="text-lg font-bold text-slate-900 dark:text-slate-100">
+              <span className="text-lg font-bold text-white">
                 {vndEstimate || formatVND(0)}
               </span>
             </div>
-            <div className="flex items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
+            <div className="flex items-center justify-between gap-3 text-xs text-slate-400">
               <span>
                 {tokenAmount} {asset}
               </span>
@@ -264,7 +264,7 @@ export function BuySellFlowModal({
             </div>
           </div>
 
-          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
+          <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
             {tradeType === "buy"
               ? t("buySellFlowModal.methodSelectWallet", { asset })
               : t("buySellFlowModal.methodSelectBank")}
@@ -278,8 +278,8 @@ export function BuySellFlowModal({
           )}
 
           {!methodsLoading && methodsError && (
-            <div className="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-center dark:border-rose-900 dark:bg-rose-950/30">
-              <p className="text-sm text-rose-600 dark:text-rose-400">
+            <div className="rounded-2xl border border-rose-900 bg-rose-950/30 p-4 text-center">
+              <p className="text-sm text-rose-400">
                 {methodsError}
               </p>
               <button
@@ -296,7 +296,7 @@ export function BuySellFlowModal({
                     )
                     .finally(() => setMethodsLoading(false));
                 }}
-                className="mt-2 text-xs font-semibold text-rose-700 underline dark:text-rose-300"
+                className="mt-2 text-xs font-semibold text-rose-300 underline"
               >
                 {t("buySellFlowModal.retry")}
               </button>
@@ -305,7 +305,7 @@ export function BuySellFlowModal({
 
           {!methodsLoading && !methodsError && filtered.length === 0 && (
             <div className="flex flex-col items-center gap-3 py-8">
-              <p className="text-sm text-slate-400 dark:text-slate-500">
+              <p className="text-sm text-slate-400">
                 {tradeType === "buy"
                   ? t("buySellFlowModal.noWallet")
                   : t("buySellFlowModal.noBank")}
@@ -317,7 +317,7 @@ export function BuySellFlowModal({
                   if (tradeType === "buy") onGoToWallet?.();
                   else onGoToBank?.();
                 }}
-                className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+                className="rounded-xl bg-linear-to-r from-[#E84142] to-[#FF5A5B] px-4 py-2 text-sm font-semibold text-white hover:brightness-110 shadow-lg shadow-[#E84142]/30"
               >
                 {tradeType === "buy"
                   ? t("buySellFlowModal.goToWallet")
@@ -341,15 +341,15 @@ export function BuySellFlowModal({
                   onClick={() => setSelectedMethodId(m.id)}
                   className={`flex w-full items-center gap-3 rounded-2xl border p-3 text-left transition-colors ${
                     isSelected
-                      ? "border-blue-500 bg-blue-50 dark:border-blue-400 dark:bg-blue-900/20"
-                      : "border-slate-200 bg-slate-50 hover:border-blue-300 dark:border-slate-700 dark:bg-slate-800/50 dark:hover:border-blue-600"
+                      ? "border-[#E84142] bg-[#E84142]/10"
+                      : "border-white/10 bg-[#1A1B22] hover:border-[#E84142]/50"
                   }`}
                 >
                   <span
                     className={`inline-flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl ${
                       isSelected
-                        ? "bg-blue-100 text-blue-600 dark:bg-blue-800 dark:text-blue-300"
-                        : "bg-slate-200 text-slate-500 dark:bg-slate-700 dark:text-slate-400"
+                        ? "bg-[#E84142]/20 text-[#FF5A5B]"
+                        : "bg-[#242630] text-slate-400"
                     }`}
                   >
                     {bank?.image ? (
@@ -367,26 +367,26 @@ export function BuySellFlowModal({
                   <div className="flex-1 min-w-0">
                     {m.type === "BANK" ? (
                       <>
-                        <p className="text-sm font-semibold text-slate-800 dark:text-slate-100 truncate">
+                        <p className="text-sm font-semibold text-white truncate">
                           {bank?.short_name ?? "Bank"}
                         </p>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
+                        <p className="text-xs text-slate-400 truncate">
                           {m.full_name} · {m.bank_account}
                         </p>
                       </>
                     ) : (
                       <>
-                        <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
+                        <p className="text-sm font-semibold text-white">
                           Avalanche
                         </p>
-                        <p className="text-xs font-mono text-slate-500 dark:text-slate-400 break-all">
+                        <p className="text-xs font-mono text-slate-400 break-all">
                           {shortenAddress(m.wallet_address ?? "")}
                         </p>
                       </>
                     )}
                   </div>
                   {isSelected && (
-                    <Check className="h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400" />
+                    <Check className="h-4 w-4 shrink-0 text-[#FF5A5B]" />
                   )}
                 </button>
               );
@@ -396,7 +396,7 @@ export function BuySellFlowModal({
             type="button"
             disabled={!canNext}
             onClick={() => setStep("confirm")}
-            className="w-full rounded-xl bg-blue-600 py-3 text-sm font-bold text-white transition-colors hover:bg-blue-700 disabled:opacity-40"
+            className="w-full rounded-xl bg-linear-to-r from-[#E84142] to-[#FF5A5B] py-3 text-sm font-bold text-white transition-all hover:brightness-110 shadow-lg shadow-[#E84142]/30 disabled:opacity-40 disabled:shadow-none"
           >
             {t("buySellFlowModal.next")}
           </button>
@@ -460,11 +460,11 @@ export function BuySellFlowModal({
         <StepIndicator2 step="confirm" />
 
         <div className="p-5 space-y-4">
-          <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
+          <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
             {t("buySellFlowModal.summaryTitle")}
           </p>
 
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 space-y-2.5 dark:border-slate-700 dark:bg-slate-800/50">
+          <div className="rounded-2xl border border-white/10 bg-[#1A1B22] p-4 space-y-2.5">
             <SummaryRow2
               label={t("buySellFlowModal.summaryAsset")}
               value={asset}
@@ -520,7 +520,7 @@ export function BuySellFlowModal({
           </div>
 
           {submitError && (
-            <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600 dark:border-rose-900 dark:bg-rose-950/30 dark:text-rose-400">
+            <div className="rounded-xl border border-rose-900 bg-rose-950/30 px-4 py-3 text-sm text-rose-400">
               {submitError}
             </div>
           )}
@@ -530,7 +530,7 @@ export function BuySellFlowModal({
               type="button"
               onClick={() => setStep("method")}
               disabled={submitting}
-              className="flex-1 rounded-xl border border-slate-200 bg-white py-2.5 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-40 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+              className="flex-1 rounded-xl border border-white/10 bg-[#242630] py-2.5 text-sm font-semibold text-slate-300 transition-colors hover:bg-[#2C2E3B] disabled:opacity-40"
             >
               {t("buySellFlowModal.back")}
             </button>
@@ -538,7 +538,7 @@ export function BuySellFlowModal({
               type="button"
               disabled={submitting}
               onClick={handleConfirm}
-              className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-blue-600 py-2.5 text-sm font-bold text-white transition-colors hover:bg-blue-700 disabled:opacity-60"
+              className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-linear-to-r from-[#E84142] to-[#FF5A5B] py-2.5 text-sm font-bold text-white transition-all hover:brightness-110 shadow-lg shadow-[#E84142]/30 disabled:opacity-60"
             >
               {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
               {submitting
@@ -599,25 +599,25 @@ export function BuySellFlowModal({
           <div
             className={`flex items-center justify-between rounded-xl border px-4 py-3 ${
               order.state === OrderState.COMPLETED
-                ? "border-emerald-200 bg-emerald-50 dark:border-emerald-800 dark:bg-emerald-950/30"
+                ? "border-emerald-800 bg-emerald-950/30"
                 : order.state === OrderState.FAILED ||
                     order.state === OrderState.CANCELLED
-                  ? "border-rose-200 bg-rose-50 dark:border-rose-800 dark:bg-rose-950/30"
+                  ? "border-rose-800 bg-rose-950/30"
                   : order.state === OrderState.PROCESSING
-                    ? "border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/30"
-                    : "border-amber-200 bg-amber-50 dark:border-amber-800 dark:bg-amber-950/30"
+                    ? "border-[#E84142]/30 bg-[#E84142]/10"
+                    : "border-amber-800 bg-amber-950/30"
             }`}
           >
             <div>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-slate-400">
                 {t("buySellFlowModal.orderCode")}
               </p>
-              <p className="text-sm font-mono font-semibold text-slate-700 dark:text-slate-200">
+              <p className="text-sm font-mono font-semibold text-slate-200">
                 {order.payment_code}
               </p>
             </div>
             <div className="text-right">
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-slate-400">
                 {t("buySellFlowModal.statusLabel")}
               </p>
               <p className={`text-sm font-bold ${statusColor(order.state)}`}>
@@ -627,15 +627,15 @@ export function BuySellFlowModal({
           </div>
 
           {polling && !terminal && (
-            <div className="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500">
+            <div className="flex items-center gap-2 text-xs text-slate-400">
               <RefreshCw className="h-3.5 w-3.5 animate-spin" />
               <span>Auto-refreshing…</span>
             </div>
           )}
 
           {isBuy && bankInfo && (
-            <div className="rounded-2xl border border-blue-200 bg-blue-50 p-4 space-y-2.5 dark:border-blue-800 dark:bg-blue-950/30">
-              <p className="text-xs font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">
+            <div className="rounded-2xl border border-[#E84142]/30 bg-[#E84142]/10 p-4 space-y-2.5">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#FF5A5B]">
                 {t("buySellFlowModal.paymentTitleBuy")}
               </p>
               {bank && (
@@ -696,17 +696,17 @@ export function BuySellFlowModal({
                   <img
                     src={qrLink}
                     alt="QR"
-                    className="h-36 w-36 rounded-lg border border-blue-200 bg-white object-contain dark:border-blue-700"
+                    className="h-36 w-36 rounded-lg border border-[#E84142]/30 bg-white object-contain"
                   />
-                  <p className="text-xs text-blue-600/70 dark:text-blue-400/70">
+                  <p className="text-xs text-[#FF5A5B]/70">
                     {t("buySellFlowModal.paymentQrHint")}
                   </p>
                 </div>
               )}
               {!terminal && (
-                <div className="mt-4 flex items-start gap-2 rounded-lg border border-amber-300 bg-amber-50 p-3 dark:border-amber-700 dark:bg-amber-950/30">
+                <div className="mt-4 flex items-start gap-2 rounded-lg border border-amber-700 bg-amber-950/30 p-3">
                   <svg
-                    className="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400"
+                    className="mt-0.5 h-4 w-4 shrink-0 text-amber-400"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -718,7 +718,7 @@ export function BuySellFlowModal({
                       d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
                     />
                   </svg>
-                  <p className="text-sm font-semibold text-amber-800 dark:text-amber-200">
+                  <p className="text-sm font-semibold text-amber-300">
                     {t("buySellFlowModal.paymentNote")}
                   </p>
                 </div>
@@ -727,8 +727,8 @@ export function BuySellFlowModal({
           )}
 
           {!isBuy && payData?.address && (
-            <div className="rounded-2xl border border-violet-200 bg-violet-50 p-4 space-y-2.5 dark:border-violet-800 dark:bg-violet-950/30">
-              <p className="text-xs font-bold uppercase tracking-widest text-violet-600 dark:text-violet-400">
+            <div className="rounded-2xl border border-[#E84142]/30 bg-[#E84142]/10 p-4 space-y-2.5">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#FF5A5B]">
                 {t("buySellFlowModal.paymentTitleSell", { asset })}
               </p>
               <CopyRow2
@@ -744,12 +744,12 @@ export function BuySellFlowModal({
                   <img
                     src={(payData.qr_link || payData.qr_code)!}
                     alt="QR"
-                    className="h-36 w-36 rounded-lg border border-violet-200 bg-white object-contain dark:border-violet-700"
+                    className="h-36 w-36 rounded-lg border border-[#E84142]/30 bg-white object-contain"
                   />
                 </div>
               )}
               {!terminal && (
-                <p className="text-xs text-violet-700/80 dark:text-violet-300/80 pt-1">
+                <p className="text-xs text-[#FF5A5B]/80 pt-1">
                   {t("buySellFlowModal.paymentNoteSell", {
                     amount: tokenAmount,
                     asset,
@@ -760,18 +760,18 @@ export function BuySellFlowModal({
           )}
 
           {order.net_vnd != null && isBuy && (
-            <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 flex justify-between items-center dark:border-emerald-800 dark:bg-emerald-950/30">
-              <p className="text-xs text-emerald-700 dark:text-emerald-400">
+            <div className="rounded-xl border border-emerald-800 bg-emerald-950/30 px-4 py-3 flex justify-between items-center">
+              <p className="text-xs text-emerald-400">
                 {t("buySellFlowModal.summaryNet")}
               </p>
-              <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">
+              <p className="text-sm font-bold text-emerald-400">
                 {formatVND(order.net_vnd)}
               </p>
             </div>
           )}
 
           {cancelMsg && (
-            <p className="text-xs text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-slate-400">
               {cancelMsg}
             </p>
           )}
@@ -782,7 +782,7 @@ export function BuySellFlowModal({
                 type="button"
                 disabled={cancelling}
                 onClick={handleCancel}
-                className="flex-1 flex items-center justify-center gap-2 rounded-xl border border-rose-200 bg-white py-2.5 text-sm font-semibold text-rose-600 transition-colors hover:bg-rose-50 disabled:opacity-60 dark:border-rose-800 dark:bg-slate-900 dark:text-rose-400 dark:hover:bg-rose-950/30"
+                className="flex-1 flex items-center justify-center gap-2 rounded-xl border border-rose-800 bg-[#242630] py-2.5 text-sm font-semibold text-rose-400 transition-colors hover:bg-rose-950/30 disabled:opacity-60"
               >
                 {cancelling && <Loader2 className="h-4 w-4 animate-spin" />}
                 {cancelling
@@ -794,7 +794,7 @@ export function BuySellFlowModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 rounded-xl bg-blue-600 py-2.5 text-sm font-bold text-white transition-colors hover:bg-blue-700"
+                className="flex-1 rounded-xl bg-linear-to-r from-[#E84142] to-[#FF5A5B] py-2.5 text-sm font-bold text-white transition-all hover:brightness-110 shadow-lg shadow-[#E84142]/30"
               >
                 {t("buySellFlowModal.done")}
               </button>
@@ -835,8 +835,8 @@ function ModalShell2({
         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900">
-        <div className="flex items-center gap-3 border-b border-slate-200 bg-linear-to-r from-blue-600 to-cyan-500 p-5 dark:border-slate-700">
+      <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-white/10 bg-[#131418] shadow-2xl">
+        <div className="flex items-center gap-3 border-b border-white/10 bg-linear-to-r from-[#E84142] to-[#FF5A5B] p-5">
           <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 text-white">
             <Icon className="h-5 w-5" />
           </span>
@@ -846,7 +846,7 @@ function ModalShell2({
                 ? t("buySellFlowModal.titleBuy", { asset })
                 : t("buySellFlowModal.titleSell", { asset })}
             </h2>
-            <p className="text-xs text-blue-100">
+            <p className="text-xs text-white/80">
               {isBuy
                 ? t("buySellFlowModal.subtitleBuy", { asset })
                 : t("buySellFlowModal.subtitleSell", { asset })}
@@ -878,8 +878,8 @@ function StepIndicator2({ step }: { step: Step }) {
           <div
             className={`h-1.5 w-8 rounded-full transition-colors ${
               i <= current
-                ? "bg-blue-600 dark:bg-blue-400"
-                : "bg-slate-200 dark:bg-slate-700"
+                ? "bg-[#E84142]"
+                : "bg-white/10"
             }`}
           />
         </div>
@@ -899,11 +899,11 @@ function SummaryRow2({
 }) {
   return (
     <div className="flex items-start justify-between gap-4">
-      <span className="text-xs text-slate-500 dark:text-slate-400 shrink-0">
+      <span className="text-xs text-slate-400 shrink-0">
         {label}
       </span>
       <span
-        className={`text-xs text-right text-slate-800 dark:text-slate-100 ${bold ? "font-bold" : ""}`}
+        className={`text-xs text-right text-white ${bold ? "font-bold" : ""}`}
       >
         {value}
       </span>
@@ -929,11 +929,11 @@ function CopyRow2({
   return (
     <div className="flex items-start justify-between gap-3">
       <div className="flex-1 min-w-0">
-        <p className="text-xs text-blue-600/70 dark:text-blue-400/70 mb-0.5">
+        <p className="text-xs text-[#FF5A5B]/70 mb-0.5">
           {label}
         </p>
         <p
-          className={`text-sm font-semibold text-slate-800 dark:text-slate-100 break-all ${mono ? "font-mono" : ""}`}
+          className={`text-sm font-semibold text-white break-all ${mono ? "font-mono" : ""}`}
         >
           {value}
         </p>
@@ -942,7 +942,7 @@ function CopyRow2({
         type="button"
         onClick={onCopy}
         title={t("buySellFlowModal.copy")}
-        className="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded-lg border border-blue-200 bg-white text-blue-600 transition-colors hover:bg-blue-100 dark:border-blue-700 dark:bg-slate-800 dark:text-blue-400 dark:hover:bg-blue-900/30"
+        className="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded-lg border border-[#E84142]/30 bg-[#242630] text-[#FF5A5B] transition-colors hover:bg-[#E84142]/20"
       >
         {copied ? (
           <Check className="h-3.5 w-3.5" />

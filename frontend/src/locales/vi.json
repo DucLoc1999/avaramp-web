@@ -1,11 +1,16 @@
 {
   "nav": {
-    "whyAvaRamp": "Tại sao chọn AvaRamp?",
+    "whyAvaRamp": "Tính năng",
     "process": "Quy trình",
-    "liveRates": "Tỷ giá trực tiếp",
-    "faq": "Câu hỏi thường gặp",
+    "liveRates": "Tỷ giá & So sánh",
+    "supported": "Ngân hàng & Coin",
+    "developers": "Nhà phát triển",
+    "faq": "Hỏi đáp",
     "contactSupport": "Liên hệ hỗ trợ",
     "buySell": "Mua/Bán"
+  },
+  "header": {
+    "banner": "Avalanche C-Chain thanh toán dưới 1 giây • Phí cố định 0.5% • Quét VietQR nhận trong 30s"
   },
   "hero": {
     "badge": "BOT TELEGRAM 24/7",
@@ -31,179 +36,247 @@
     "youReceive": "Bạn nhận",
     "fee": "Phí",
     "nextRefresh": "Làm mới tiếp theo",
-    "zeroKnowledge": "Bảo mật Zero-Knowledge. Mã hóa đầu cuối."
+    "zeroKnowledge": "Bảo mật Zero-Knowledge. Mã hóa đầu cuối.",
+    "badgeNew": "⚡ CỔNG ON & OFF RAMP TRỰC TIẾP TRÊN AVAX",
+    "headlinePre": "Nạp rút VND trực tiếp trên ",
+    "headlineHighlight": "Avalanche C-Chain",
+    "headlinePost": " chỉ trong 30 giây",
+    "subtitle": "Chuyển đổi tiền VND sang AVAX, USDC, USDT với VietQR tự động 24/7. Không cần chat P2P mệt mỏi, không lo phong tỏa tài khoản, phí phẳng 0.5% minh bạch, crypto chuyển thẳng vào ví cá nhân của bạn.",
+    "ctaTelegram": "Mở Bot Telegram",
+    "ctaCompare": "Xem So Sánh Tỷ Giá",
+    "statSettlementLabel": "Thời gian xử lý TB",
+    "statSettlementVal": "< 25 giây",
+    "statFeeLabel": "Phí nền tảng",
+    "statFeeVal": "0.5% Cố định",
+    "statSuccessLabel": "Tỷ lệ thành công",
+    "statSuccessVal": "99.98%",
+    "statVolumeLabel": "Tổng khối lượng nạp rút",
+    "statVolumeVal": "$52,000,000+",
+    "railsLabel": "Hỗ trợ thanh toán:",
+    "widgetTitle": "Tỷ giá VND trực tiếp",
+    "nonCustodial": "100% Phi lưu ký",
+    "vietQrFree": "VietQR 24/7 Miễn phí",
+    "zeroSlippage": "Không trượt giá",
+    "buyTab": "Mua Crypto",
+    "sellTab": "Bán Crypto",
+    "liveIn": "Làm mới sau {{seconds}}s",
+    "rateUnavailable": "Tỷ giá tạm thời không khả dụng",
+    "rateLabel": "Tỷ giá đảm bảo",
+    "feeLabel": "Phí nền tảng",
+    "networkFeeLabel": "Phí gas Avalanche",
+    "networkFeeVal": "~0.0015 AVAX (< 400đ)",
+    "speedLabel": "Tốc độ hoàn tất",
+    "speedVal": "< 30 giây (Napas + AVAX)",
+    "buyAction": "Mua {{token}} qua ngân hàng",
+    "sellAction": "Bán {{token}} nhận VND"
   },
   "features": {
-    "eyebrow": "TẠI SAO CHỌN AVARAMP?",
-    "title": "Được xây dựng cho nhà giao dịch Việt Nam",
+    "eyebrow": "VÌ SAO CHỌN AVARAMP",
+    "title": "Giải pháp nạp rút thế hệ mới trên Avalanche",
+    "subtitle": "Chúng tôi kết hợp sức mạnh sub-second finality của Avalanche C-Chain với mạng lưới chuyển tiền nhanh 24/7 Napas VietQR để đem đến trải nghiệm nạp rút crypto an toàn và liền mạch nhất.",
     "items": [
       {
-        "title": "Thực thi cực nhanh",
-        "description": "Công cụ khớp lệnh tự động thanh toán VND trực tiếp vào tài khoản ngân hàng của bạn trong vài giây."
+        "title": "Khớp lệnh Sub-Second (< 30s)",
+        "description": "Tận dụng tốc độ xác nhận tức thì của Avalanche C-Chain, crypto vào thẳng ví của bạn chỉ sau vài giây quét mã VietQR."
       },
       {
-        "title": "Tỷ giá VND tốt nhất",
-        "description": "Chúng tôi tổng hợp thanh khoản để đảm bảo mức chênh lệch thấp nhất cho USDT."
+        "title": "100% Non-Custodial (Không lưu ký)",
+        "description": "AvaRamp không bao giờ giữ tiền hoặc private key của bạn. Tiền điện tử đi thẳng vào ví cá nhân (Core, MetaMask, Rabby)."
       },
       {
-        "title": "Bảo mật tuyệt đối",
-        "description": "Thiết kế phi lưu ký. Bạn giữ khóa riêng, chúng tôi xử lý việc định tuyến tiền pháp định."
+        "title": "Phí cố định 0.5% - 0% Spread ẩn",
+        "description": "Không có chi phí ẩn, không có tỷ giá P2P chênh lệch vô lý. Báo giá hiển thị chính xác số tiền bạn thanh toán và nhận được."
       },
       {
-        "title": "Hỗ trợ địa phương 24/7",
-        "description": "Đội ngũ hỗ trợ người Việt chuyên dụng, luôn sẵn sàng trực tiếp trong Telegram."
+        "title": "Tự động 24/7 qua 50+ Ngân hàng",
+        "description": "Hỗ trợ chuyển khoản nhanh Napas VietQR với tất cả ngân hàng tại Việt Nam (Vietcombank, Techcombank, MB, ACB, BIDV...)."
+      },
+      {
+        "title": "Xóa bỏ rủi ro phong tỏa tài khoản",
+        "description": "Giao dịch qua tài khoản doanh nghiệp đối tác đạt chuẩn, không giao dịch tiền bẩn hay rủi ro lừa đảo như mua bán P2P trôi nổi."
+      },
+      {
+        "title": "Hỗ trợ kỹ thuật 24/7 tức thì",
+        "description": "Đội ngũ chuyên viên túc trực liên tục qua Telegram và Live Chat. Mọi sự cố tra soát đều được giải quyết trong vòng 5 phút."
       }
     ]
   },
   "howItWorks": {
-    "eyebrow": "CÁCH THỨC HOẠT ĐỘNG",
-    "title": "Từ Crypto sang VND trong 3 bước",
-    "cta": "📊 Mua/Bán ngay",
-    "steps": [
+    "eyebrow": "HƯỚNG DẪN 4 BƯỚC ĐƠN GIẢN",
+    "title": "Quy trình nạp rút diễn ra như thế nào?",
+    "subtitle": "Hệ thống tự động hóa 100% giúp quy trình diễn ra trơn tru, không cần phải chat hay chờ đợi người bán duyệt lệnh.",
+    "buyTab": "Mua AVAX / USDC (On-Ramp)",
+    "sellTab": "Rút Tiền Ngân Hàng (Off-Ramp)",
+    "automated": "Tự động 100%",
+    "cta": "Trải nghiệm nạp rút ngay",
+    "buySteps": [
       {
-        "title": "📱 Mở Telegram và tìm bot của chúng tôi",
-        "description": "👉 Nhấn \"Start\" để kích hoạt bot và hoàn tất xác minh KYC nhanh chóng."
+        "title": "Chọn số tiền & Token",
+        "description": "Nhập số tiền VND bạn muốn chi và chọn token trên Avalanche (AVAX, USDC, USDT, BTC.b)."
       },
       {
-        "title": "💱 Chọn Mua hoặc Bán — xác nhận & nhận tiền",
-        "description": "Chọn USDT, nhập số lượng, xác nhận tỷ giá và tiền được thanh toán trong vài giây."
+        "title": "Nhập địa chỉ ví Avalanche",
+        "description": "Điền địa chỉ ví Web3 của bạn (Core Wallet, MetaMask, Rabby...) để nhận crypto trực tiếp."
+      },
+      {
+        "title": "Quét mã VietQR thanh toán",
+        "description": "Mở ứng dụng ngân hàng bất kỳ (Vietcombank, MB, Techcombank...) và quét mã QR để chuyển tiền."
+      },
+      {
+        "title": "Nhận Crypto trong 30 giây",
+        "description": "Hợp đồng thanh khoản tự động chuyển token đến ví của bạn. Kiểm tra on-chain trên Snowtrace."
       }
     ],
-    "mockup": {
-      "step1": "Bước 1 — Khởi động Bot",
-      "step2": "Bước 2 — Xác minh danh tính",
-      "step3": "Bước 3 — Mua hoặc Bán",
-      "botName": "AvaRamp | Buy & Sell AVAX, USDT",
-      "botLabel": "bot",
-      "start": "/start",
-      "welcome": "👋 Xin chào <b>Loc Nguyen</b>!",
-      "welcomeBody": "🤖 Chào mừng bạn đến với Bot Mua/Bán USDT tự động!",
-      "welcomeFeature1": "💰 Tỷ giá cạnh tranh nhất thị trường",
-      "welcomeFeature2": "⚡ Giao dịch nhanh chóng, an toàn",
-      "welcomeFeature3": "🔒 Bảo mật tuyệt đối",
-      "welcomeMenuPrompt": "Vui lòng chọn chức năng bên dưới:",
-      "menuCheckRate": "💹 Kiểm tra tỷ giá",
-      "menuBuy": "💰 Mua USDT",
-      "menuSell": "🦊 Bán USDT",
-      "menuKyc": "📂 Xác minh KYC 🔴",
-      "menuBank": "🏦 Ngân hàng 🔴",
-      "menuWallet": "💎 Ví crypto 🔴",
-      "menuAccount": "👤 Tài khoản",
-      "menuReferral": "🎁 Giới thiệu bạn bè",
-      "menuSupport": "📞 Liên hệ hỗ trợ",
-      "kycTitle": "🔓 <b>XÁC MINH DANH TÍNH (KYC)</b>",
-      "kycBody": "Bạn chưa hoàn thành xác minh danh tính.",
-      "kycBody2": "Để sử dụng đầy đủ các tính năng giao dịch, vui lòng hoàn thành quy trình KYC.",
-      "kycNeeds": "<b>Quy trình KYC bao gồm:</b>",
-      "kycItem1": "1️⃣ Xác minh số điện thoại",
-      "kycItem2": "2️⃣ Cung cấp thông tin CCCD/CMND/Passport",
-      "kycFooter": "Nhấn nút bên dưới để bắt đầu!",
-      "kycButton": "🚀 Bắt đầu KYC",
-      "kycBackButton": "⬅️ Quay lại Menu",
-      "buyTitle": "💰 MUA USDT",
-      "buyBody": "Vui lòng chọn số lượng USDT muốn mua:",
-      "buyOption1": "10 USDT",
-      "buyOption2": "20 USDT",
-      "buyOption3": "50 USDT",
-      "buyCustom": "✏️ Nhập số khác",
-      "sellTitle": "🦊 BÁN USDT",
-      "sellBody": "Vui lòng chọn số lượng USDT muốn bán:",
-      "sellOption1": "10 USDT",
-      "sellOption2": "50 USDT",
-      "sellOption3": "100 USDT",
-      "sellCustom": "✏️ Nhập số khác",
-      "backButton": "⬅️ Quay lại Menu"
-    }
+    "sellSteps": [
+      {
+        "title": "Chọn lượng Crypto muốn bán",
+        "description": "Nhập số lượng AVAX hoặc USDC bạn muốn quy đổi sang tiền mặt VND."
+      },
+      {
+        "title": "Cung cấp thông tin ngân hàng",
+        "description": "Điền tên ngân hàng, số tài khoản và tên chủ tài khoản thụ hưởng của bạn."
+      },
+      {
+        "title": "Gửi Crypto vào Hợp đồng Escrow",
+        "description": "Chuyển token đến địa chỉ hợp đồng thông minh Avalanche an toàn của AvaRamp."
+      },
+      {
+        "title": "Tài khoản ngân hàng ting ting",
+        "description": "Ngay khi giao dịch on-chain được xác nhận, tiền VND sẽ chuyển ngay vào tài khoản qua Napas 24/7."
+      }
+    ]
   },
   "rates": {
-    "eyebrow": "Tỷ giá trực tiếp",
-    "title": "Tỷ giá hối đoái minh bạch, theo thời gian thực",
-    "description": "Giá trực tiếp từ các nền tảng P2P phổ biến nhất tại Việt Nam.",
-    "asset": "Tài sản",
-    "network": "Mạng lưới",
-    "buyVnd": "Mua (VND)",
-    "sellVnd": "Bán (VND)",
-    "refreshNote": "Tỷ giá làm mới mỗi 60 giây. Tỷ giá cuối cùng được xác nhận khi thực hiện giao dịch.",
-    "linkedWith": "Liên kết với hơn",
-    "banks": "50+ ngân hàng,",
-    "ewallets": "7+ ví điện tử",
-    "noHistory": "Chưa có dữ liệu lịch sử",
-    "marketComparison": "So sánh thị trường",
-    "bestRate": "Tỷ giá tốt nhất",
-    "lowestFee": "Phí thấp nhất",
-    "ourRate": "AvaRamp",
+    "eyebrow": "MINH BẠCH TỶ GIÁ THỰC TẾ",
+    "title": "So sánh tỷ giá AvaRamp vs Các sàn P2P",
+    "description": "Chúng tôi tối ưu thanh khoản trực tiếp trên Avalanche C-Chain, loại bỏ chi phí trung gian và phí sàn P2P đắt đỏ để mang lại tỷ giá có lợi nhất cho bạn.",
+    "tokenAvax": "AVAX (Avalanche)",
+    "tokenUsdc": "USDC (Native C-Chain)",
+    "colExchange": "Nền tảng",
+    "colBuyRate": "Giá Mua (Bạn trả)",
+    "colSellRate": "Giá Bán (Bạn nhận)",
+    "colFee": "Mức phí",
+    "colSpeed": "Tốc độ",
+    "colAction": "Hành động",
+    "recommended": "Khuyên dùng",
+    "bestRate": "TỶ GIÁ TỐT NHẤT",
     "buyNow": "Mua ngay",
-    "refreshingIn": "Làm mới sau {{seconds}}s",
-    "finalRate": "Tỷ giá cuối cùng được xác nhận khi thực hiện giao dịch.",
-    "days": "{{count}} ngày",
-    "chartOurTitle": "USDT / VND — AvaRamp (Mua / Bán)",
-    "chartCompareBuy": "So sánh giá Mua USDT P2P",
-    "chartCompareSell": "So sánh giá Bán USDT P2P",
-    "chartBuy": "Mua (Buy)",
-    "chartSell": "Bán (Sell)",
-    "buy": "Mua",
-    "sell": "Bán"
+    "middleman": "P2P Trung gian",
+    "savingsTip": "💡 Mua 10,000,000 VND trên AvaRamp giúp bạn tiết kiệm trung bình từ 180,000đ - 350,000đ so với P2P thông thường!",
+    "highlightOurs": "Phí thấp nhất & Phi lưu ký trực tiếp",
+    "highlightBinance": "Yêu cầu KYC & Chat Escrow",
+    "highlightBybit": "Thường xuyên tranh chấp merchant",
+    "highlightRemitano": "Phí rút AVAX cao",
+    "highlightOkx": "Xác minh phức tạp"
+  },
+  "supported": {
+    "eyebrow": "HỆ SINH THÁI HỖ TRỢ",
+    "title": "Token Avalanche & Ngân Hàng Hỗ Trợ",
+    "subtitle": "Hỗ trợ nạp rút đầy đủ các token chính trên Avalanche C-Chain và kết nối với hơn 50 ngân hàng tại Việt Nam qua hệ thống Napas 247.",
+    "tokensHeading": "Token Avalanche C-Chain",
+    "banksHeading": "50+ Ngân Hàng Việt Nam",
+    "walletsHeading": "Ví Web3 Tương Thích",
+    "napasNote": "Chuyển khoản nhanh Napas 247 tức thì",
+    "nativeGas": "Native Gas",
+    "copyContract": "Sao chép contract",
+    "wallets": [
+      { "name": "Core Wallet", "desc": "Ví chính thức hệ sinh thái Avalanche", "tag": "Khuyên dùng" },
+      { "name": "MetaMask", "desc": "Ví Web3 phổ biến toàn cầu", "tag": "C-Chain" },
+      { "name": "Rabby Wallet", "desc": "Bảo mật đa chuỗi tối ưu cho DeFi", "tag": "DeFi" },
+      { "name": "Coinbase Wallet", "desc": "Ví lưu ký cá nhân bảo mật", "tag": "Web3" }
+    ]
+  },
+  "developers": {
+    "eyebrow": "DÀNH CHO NHÀ PHÁT TRIỂN & DAPPS",
+    "title": "Tích hợp cổng nạp rút vào dApp với 2 dòng code",
+    "subtitle": "Cho phép người dùng mua AVAX hoặc nạp tiền trực tiếp vào GameFi, sàn DEX, hoặc chợ NFT trên Avalanche mà không cần rời khỏi giao diện của bạn.",
+    "partnerBadge": "Chương trình Đối tác:",
+    "partnerDesc": "Nhận đến 40% chia sẻ doanh thu phí giao dịch từ mỗi lượt nạp rút của người dùng.",
+    "getKey": "Đăng ký API Key Đối tác",
+    "docsBtn": "Xem đầy đủ API Docs",
+    "copyCode": "Sao chép mã",
+    "copied": "Đã chép",
+    "tabReact": "React Widget",
+    "tabJs": "Javascript SDK",
+    "tabApi": "REST API"
   },
   "na": "N/A",
   "feedback": {
-    "eyebrow": "PHẢN HỒI NGƯỜI DÙNG",
-    "title": "Được cộng đồng OTC tin tưởng",
-    "description": "Người dùng yêu thích tốc độ, tỷ giá minh bạch và đội ngũ hỗ trợ luôn sẵn sàng giúp đỡ của chúng tôi.",
+    "eyebrow": "ĐÁNH GIÁ CỦA CỘNG ĐỒNG",
+    "title": "Trải nghiệm từ người dùng & đối tác",
+    "description": "Hàng ngàn giao dịch nạp rút mỗi ngày được xử lý an toàn và minh bạch qua hệ thống tự động AvaRamp.",
     "items": [
       {
-        "quote": "Mua USDT siêu nhanh, nhận tiền trong chưa đầy 5 phút.",
-        "name": "Thái Anh",
-        "role": "Nhà giao dịch OTC"
+        "quote": "Trước đây mỗi lần cần AVAX để farm trên Trader Joe phải nạp qua sàn CEX rồi rút mất 10-15 phút. Dùng AvaRamp quét VietQR một phát 20 giây sau đã thấy AVAX trong ví Core, phí lại rẻ hơn hẳn P2P Binance!",
+        "name": "Hoàng Minh",
+        "role": "DeFi Trader & Người đam mê Avalanche",
+        "badge": "Giao dịch thường xuyên",
+        "volume": "240M+ VND đã nạp rút"
       },
       {
-        "quote": "Bot Telegram dễ sử dụng và tỷ giá hoàn toàn minh bạch.",
-        "name": "Minh Anh",
-        "role": "Nhà đầu tư"
+        "quote": "Tích hợp widget AvaRamp vào nền tảng mint NFT của chúng tôi giúp chuyển đổi người dùng mới tăng 300%. Khách hàng không cần biết swap rườm rà, quét QR là nhận NFT ngay.",
+        "name": "Sarah Jenkins",
+        "role": "Nhà phát triển hệ sinh thái Avalanche",
+        "badge": "Đối tác dApp",
+        "volume": "15,000+ lượt gọi API"
       },
       {
-        "quote": "Hỗ trợ 24/7 thực sự, gửi nhầm mạng và được giúp đỡ ngay lập tức.",
-        "name": "Đỗ Hùng",
-        "role": "Người bán POD"
-      },
-      {
-        "quote": "Tỷ giá tốt nhất thị trường với giao dịch hoàn toàn minh bạch.",
-        "name": "Lan Anh",
-        "role": "Nhà sáng tạo nội dung"
-      },
-      {
-        "quote": "Rút tiền nhanh, không bị kẹt lệnh như các nền tảng khác.",
-        "name": "Đức Hiếu",
-        "role": "Dropshipper"
-      },
-      {
-        "quote": "Hệ thống cực kỳ ổn định — chưa bao giờ gặp bất kỳ sự cố kỹ thuật nào.",
-        "name": "Nguyễn Nam",
-        "role": "Freelancer"
+        "quote": "Nhận lương bằng USDC trên Avalanche C-Chain, mỗi lần off-ramp về tài khoản Techcombank chỉ mất đúng 30 giây, tỷ giá chuẩn sát thị trường và không bao giờ lo bị phong tỏa thẻ như P2P trôi nổi.",
+        "name": "Quốc Bảo",
+        "role": "Web3 Freelancer & Nhà phát triển",
+        "badge": "Người dùng Off-ramp",
+        "volume": "180M+ VND đã nạp rút"
       }
     ]
   },
   "faq": {
     "eyebrow": "CÂU HỎI THƯỜNG GẶP",
-    "title": "Câu hỏi thường gặp",
-    "aboutUs": "VỀ CHÚNG TÔI",
-    "aboutTitle": "AvaRamp – Cầu nối tới Web3",
-    "aboutDescription": "Chúng tôi kết nối Web3 với tài chính Việt Nam thông qua các cổng phi lưu ký an toàn, chuyển tiền pháp định nhanh chóng với tỷ giá tốt nhất.",
+    "title": "Giải đáp thắc mắc về AvaRamp",
+    "subtitle": "Mọi thông tin cần thiết về tỷ giá, thời gian xử lý, bảo mật non-custodial và quy định giao dịch.",
+    "searchPlaceholder": "Tìm câu hỏi nhanh...",
+    "noResults": "Không có câu hỏi nào khớp với tìm kiếm của bạn.",
+    "categories": {
+      "all": "Tất cả",
+      "general": "Chung",
+      "fees": "Phí & Tỷ giá",
+      "security": "Bảo mật",
+      "integration": "Tích hợp dApp"
+    },
+    "support": {
+      "title": "Chưa tìm thấy câu trả lời?",
+      "description": "Đội ngũ chuyên viên túc trực 24/7 qua Telegram và Live Chat để hỗ trợ bạn lập tức.",
+      "button": "Liên hệ hỗ trợ 24/7"
+    },
     "items": [
       {
-        "question": "AvaRamp có an toàn cho giao dịch crypto phi lưu ký và định tuyến tiền pháp định bảo mật vào tài khoản ngân hàng không?",
-        "answer": "Hoàn toàn. AvaRamp hoạt động theo mô hình phi lưu ký. Chúng tôi không bao giờ giữ tài sản crypto của bạn. Hợp đồng thông minh và công cụ khớp lệnh tự động đảm bảo tiền pháp định được định tuyến an toàn và trực tiếp đến tài khoản ngân hàng bạn cung cấp."
+        "category": "general",
+        "question": "AvaRamp hoạt động như thế nào?",
+        "answer": "AvaRamp là cổng on/off-ramp tự động hóa tối ưu cho Avalanche C-Chain. Khi mua (on-ramp), bạn quét mã VietQR để chuyển khoản ngân hàng, hệ thống xác nhận thanh toán sau 5-10 giây và tự động chuyển token (AVAX, USDC) trực tiếp vào ví cá nhân (Core, MetaMask) của bạn. Khi bán (off-ramp), bạn gửi crypto vào địa chỉ escrow và tiền VND sẽ được chuyển khoản tức thì vào tài khoản ngân hàng của bạn."
       },
       {
-        "question": "Việc rút VND từ AvaRamp mất bao lâu sau khi giao dịch được xác nhận trên chuỗi?",
-        "answer": "Nhờ tích hợp NAPAS trực tiếp, 99% lệnh rút VND được xử lý và thanh toán vào tài khoản ngân hàng nội địa Việt Nam của bạn trong vòng 3 đến 30 giây sau khi giao dịch blockchain được xác nhận."
+        "category": "general",
+        "question": "Tôi có cần KYC xác minh danh tính không?",
+        "answer": "Không cần KYC phức tạp cho các giao dịch thông thường dưới 25,000,000 VND (~1,000 USD) mỗi ngày. Bạn chỉ cần nhập địa chỉ ví Avalanche và thực hiện quét mã VietQR để nhận tiền ngay lập tức."
       },
       {
-        "question": "Có giới hạn giao dịch USDT không, và tài khoản đã xác minh có thể tăng hạn mức mỗi giao dịch nhanh như thế nào?",
-        "answer": "Tài khoản chưa xác minh có thể giao dịch tối đa $500 mỗi ngày. Bằng cách hoàn tất xác minh cơ bản nhanh chóng trong bot, bạn có thể tăng hạn mức lên đến $100,000 mỗi giao dịch cho nhu cầu quy mô tổ chức."
+        "category": "fees",
+        "question": "Phí giao dịch trên AvaRamp là bao nhiêu?",
+        "answer": "AvaRamp áp dụng mức phí cố định siêu cạnh tranh chỉ 0.5% cho cả giao dịch Nạp và Rút, hoàn toàn không có phí ẩn hay chênh lệch tỷ giá (spread) thổi phồng như các sàn P2P truyền thống. Phí mạng lưới Avalanche C-Chain cực rẻ (< 0.002 AVAX, khoảng vài trăm đồng)."
       },
       {
-        "question": "Bot Telegram có hoạt động trong các ngày lễ Việt Nam không, để bạn có thể nạp và rút tiền mà không bị chậm trễ?",
-        "answer": "Có! Hệ thống của chúng tôi hoàn toàn tự động và hoạt động 24/7/365. Bạn có thể nạp và rút tiền trong dịp Tết, cuối tuần và giữa đêm mà không có bất kỳ sự chậm trễ nào."
+        "category": "security",
+        "question": "AvaRamp có giữ tiền hoặc khóa tài sản của tôi không?",
+        "answer": "Hoàn toàn không. AvaRamp tuân thủ nguyên tắc Non-Custodial (không lưu ký). Tiền điện tử được chuyển thẳng từ hợp đồng thanh khoản vào ví cá nhân bạn kiểm soát (Core Wallet, MetaMask, Rabby, v.v.). Bạn luôn nắm giữ khóa bảo mật (private keys) của chính mình."
+      },
+      {
+        "category": "security",
+        "question": "Giao dịch mất bao lâu để hoàn tất?",
+        "answer": "Nhờ tốc độ sub-second finality (dưới 1 giây) của mạng lưới Avalanche và hệ thống khớp lệnh ngân hàng tự động 24/7 qua Napas 247 / VietQR, hầu hết giao dịch hoàn thành trong vòng 15 đến 30 giây kể từ khi chuyển khoản thành công."
+      },
+      {
+        "category": "integration",
+        "question": "Tôi có thể tích hợp AvaRamp vào dApp hoặc game trên Avalanche không?",
+        "answer": "Có! AvaRamp cung cấp SDK Javascript/React nhúng widget và REST API mở. Bạn có thể cho phép người dùng dApp mua AVAX / nạp tiền chơi game chỉ với 1 dòng code, kèm chính sách chia sẻ doanh thu hấp dẫn cho đối tác tích hợp."
       }
     ]
   },
@@ -225,9 +298,29 @@
   "footer": {
     "termsOfService": "Điều khoản dịch vụ",
     "privacyPolicy": "Chính sách bảo mật",
+    "contactSupport": "Liên hệ hỗ trợ",
     "apiPartners": "Đối tác API",
     "joinCommunity": "📱 Tham gia cộng đồng",
-    "copyright": "© 2026 Orbit Labs. Bảo lưu mọi quyền."
+    "copyright": "© 2026 Orbit Labs. Bảo lưu mọi quyền.",
+    "tagline": "Cổng thanh toán Fiat On/Off-Ramp thế hệ mới trên Avalanche C-Chain. Xử lý tức thì, phí thấp nhất, không lưu ký tài sản.",
+    "badgeChain": "Avalanche C-Chain Native",
+    "badgeNapas": "Napas 247 / VietQR",
+    "colProducts": "Sản phẩm",
+    "colResources": "Tài nguyên",
+    "colLegal": "Pháp lý",
+    "linkOnRamp": "Mua AVAX (On-Ramp)",
+    "linkOffRamp": "Rút VND (Off-Ramp)",
+    "linkLiveRates": "Tỷ giá trực tiếp",
+    "linkTelegramBot": "Telegram Bot 24/7",
+    "linkWhyAvaRamp": "Tại sao chọn AvaRamp",
+    "linkProcess": "Cách thức hoạt động",
+    "linkFaq": "Câu hỏi thường gặp",
+    "linkExplorer": "Snowtrace Explorer",
+    "linkNonCustodial": "Kiến trúc Non-Custodial",
+    "disclaimer": "Tuyên bố miễn trừ: AvaRamp là nền tảng công nghệ định tuyến thanh toán không lưu ký (non-custodial). AvaRamp không nắm giữ tài sản tiền mã hóa hay khóa cá nhân của người dùng. Mọi giao dịch crypto được thực thi trực tiếp trên mạng Avalanche.",
+    "trustAudited": "Đã kiểm toán bảo mật",
+    "trustNonCustodial": "100% Không lưu ký",
+    "trustSettlement": "Thanh toán dưới 1 giây"
   },
   "ramp": {
     "greeting": "Xin chào!",

@@ -24,21 +24,21 @@ export function ContactSupportModal({ open, onClose }: ContactSupportModalProps)
       />
 
       {/* Panel */}
-      <div className="relative w-full max-w-sm rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-700 dark:bg-slate-900 text-center overflow-hidden flex flex-col items-center">
-        <div className="mx-auto mt-2 mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800">
-          <Phone className="h-8 w-8 text-blue-500" />
+      <div className="relative w-full max-w-sm rounded-3xl border border-white/10 bg-[#131418] p-6 shadow-2xl text-center overflow-hidden flex flex-col items-center">
+        <div className="mx-auto mt-2 mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#E84142]/20">
+          <Phone className="h-8 w-8 text-[#FF5A5B]" />
         </div>
 
-        <h2 className="mb-2 text-xl font-bold text-slate-900 dark:text-white uppercase tracking-wide">
+        <h2 className="mb-2 text-xl font-bold text-white uppercase tracking-wide">
           {t("supportModal.title")}
         </h2>
 
-        <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">
+        <p className="mb-4 text-sm text-slate-400">
           {t("supportModal.description")}
         </p>
 
         <div className="mb-6 flex flex-col items-center gap-2">
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
+          <p className="text-sm text-slate-400 mt-2">
             {t("supportModal.footer")}
           </p>
         </div>
@@ -46,7 +46,7 @@ export function ContactSupportModal({ open, onClose }: ContactSupportModalProps)
         <button
           type="button"
           onClick={onClose}
-          className="w-full rounded-xl bg-blue-600 px-4 py-2.5 flex items-center justify-center gap-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
+          className="w-full rounded-xl bg-linear-to-r from-[#E84142] to-[#FF5A5B] px-4 py-2.5 flex items-center justify-center gap-2 text-sm font-semibold text-white transition-all hover:brightness-110 shadow-lg shadow-[#E84142]/30 focus:outline-none focus:ring-2 focus:ring-[#E84142] focus:ring-offset-2 focus:ring-offset-[#131418]"
         >
           <ArrowLeft className="h-4 w-4" />
           <span>{t("supportModal.backButton")}</span>

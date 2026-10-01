@@ -1,294 +1,127 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { SectionHeading } from "./SectionHeading";
+import {
+  QrCode,
+  Wallet,
+  ArrowRight,
+  Sparkles,
+  CheckCircle2,
+  Coins,
+  Building2,
+  Zap,
+  type LucideIcon,
+} from "lucide-react";
 import { BuySellModal } from "../ui/BuySellModal";
 
-const TelegramHeader = ({
-  botName,
-  botLabel,
-}: {
-  botName: string;
-  botLabel: string;
-}) => (
-  <div className="flex items-center gap-3 border-b border-slate-700 bg-slate-700 p-4">
-    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#2AABEE] text-white text-lg">
-      ⬡
-    </div>
-    <div className="min-w-0">
-      <p className="text-sm font-bold text-white truncate">{botName}</p>
-      <p className="text-xs text-blue-300">{botLabel}</p>
-    </div>
-  </div>
-);
+const BUY_ICONS: LucideIcon[] = [Coins, Wallet, QrCode, Zap];
+const SELL_ICONS: LucideIcon[] = [Coins, Building2, ArrowRight, CheckCircle2];
 
 export const HowItWorksSection = () => {
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<"buy" | "sell">("buy");
+
+  const steps = t(activeTab === "buy" ? "howItWorks.buySteps" : "howItWorks.sellSteps", {
+    returnObjects: true,
+  }) as { title: string; description: string }[];
+  const icons = activeTab === "buy" ? BUY_ICONS : SELL_ICONS;
 
   return (
-    <section className="relative overflow-hidden bg-slate-900 py-24 text-white">
-      <div
-        className="absolute inset-0 opacity-5"
-        style={{
-          backgroundImage: `url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvc3ZnPg==")`,
-        }}
-      />
+    <section
+      id="process"
+      className="relative overflow-hidden border-t border-white/5 bg-[#0E0F14] py-24"
+    >
       <div className="section-container relative z-10">
-        <SectionHeading
-          id="process"
-          eyebrow={t("howItWorks.eyebrow")}
-          title={t("howItWorks.title")}
-          light
-        />
-        <div className="flex flex-col items-center justify-center gap-8 lg:gap-6 lg:flex-row lg:items-stretch">
-          {/* Step 1 — Main Menu */}
-          <div className="flex flex-col items-center gap-3">
-            <p className="text-xs font-semibold uppercase tracking-widest text-blue-400">
-              {t("howItWorks.mockup.step1")}
-            </p>
-            <div className="flex flex-1 items-center">
-              <div className="relative z-10 w-full max-w-sm transform lg:-rotate-2 transition-transform hover:rotate-0 overflow-hidden rounded-3xl border-8 border-slate-950 bg-slate-800 shadow-2xl">
-                <TelegramHeader
-                  botName={t("howItWorks.mockup.botName")}
-                  botLabel={t("howItWorks.mockup.botLabel")}
-                />
-                <div className="flex flex-col justify-end bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] bg-slate-900/90 bg-blend-overlay h-144 p-4">
-                  {/* User Msg */}
-                  <div className="flex justify-end mb-3">
-                    <div className="inline-block rounded-l-2xl rounded-tr-2xl bg-green-700 px-4 py-2 text-sm text-white shadow-sm">
-                      {t("howItWorks.mockup.start")}
-                    </div>
-                  </div>
-                  {/* Bot welcome */}
-                  <div className="flex justify-start mb-3">
-                    <div className="inline-block max-w-xs rounded-r-2xl rounded-tl-2xl bg-white px-4 py-3 text-sm leading-relaxed text-slate-900 shadow-sm">
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: t("howItWorks.mockup.welcome"),
-                        }}
-                      />
-                      <br />
-                      <br />
-                      {t("howItWorks.mockup.welcomeBody")}
-                      <br />
-                      <br />
-                      {t("howItWorks.mockup.welcomeFeature1")}
-                      <br />
-                      {t("howItWorks.mockup.welcomeFeature2")}
-                      <br />
-                      {t("howItWorks.mockup.welcomeFeature3")}
-                      <br />
-                      <br />
-                      {t("howItWorks.mockup.welcomeMenuPrompt")}
-                    </div>
-                  </div>
-                  {/* Menu buttons grid */}
-                  <div className="flex flex-col gap-1.5">
-                    <button className="w-full rounded-lg bg-slate-700/80 px-3 py-2.5 text-center text-xs font-medium text-white">
-                      {t("howItWorks.mockup.menuCheckRate")}
-                    </button>
-                    <div className="grid grid-cols-2 gap-1.5">
-                      <button className="rounded-lg bg-slate-700/80 px-3 py-2.5 text-xs font-medium text-white">
-                        {t("howItWorks.mockup.menuBuy")}
-                      </button>
-                      <button className="rounded-lg bg-slate-700/80 px-3 py-2.5 text-xs font-medium text-white">
-                        {t("howItWorks.mockup.menuSell")}
-                      </button>
-                      <button className="rounded-lg bg-slate-700/80 px-3 py-2.5 text-xs font-medium text-white">
-                        {t("howItWorks.mockup.menuKyc")}
-                      </button>
-                      <button className="rounded-lg bg-slate-700/80 px-3 py-2.5 text-xs font-medium text-white">
-                        {t("howItWorks.mockup.menuBank")}
-                      </button>
-                      <button className="rounded-lg bg-slate-700/80 px-3 py-2.5 text-xs font-medium text-white">
-                        {t("howItWorks.mockup.menuWallet")}
-                      </button>
-                      <button className="rounded-lg bg-slate-700/80 px-3 py-2.5 text-xs font-medium text-white">
-                        {t("howItWorks.mockup.menuAccount")}
-                      </button>
-                      <button className="rounded-lg bg-slate-700/80 px-3 py-2.5 text-xs font-medium text-white">
-                        {t("howItWorks.mockup.menuReferral")}
-                      </button>
-                      <button className="rounded-lg bg-slate-700/80 px-3 py-2.5 text-xs font-medium text-white">
-                        {t("howItWorks.mockup.menuSupport")}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        {/* Header */}
+        <div className="mx-auto mb-12 flex max-w-3xl flex-col items-center gap-4 text-center">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E84142]/30 bg-[#E84142]/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#E84142]">
+            <Sparkles className="h-3.5 w-3.5" />
+            {t("howItWorks.eyebrow")}
+          </span>
+          <h2 className="text-2xl font-extrabold tracking-tight text-white sm:text-4xl">
+            {t("howItWorks.title")}
+          </h2>
+          <p className="text-sm leading-relaxed text-slate-400 sm:text-base">
+            {t("howItWorks.subtitle")}
+          </p>
 
-          {/* Arrow 1 */}
-          <div className="hidden text-2xl text-blue-400 lg:flex lg:items-center shrink-0">
-            →
-          </div>
-          <div className="text-2xl text-blue-400 lg:hidden">↓</div>
-
-          {/* Step 2 — KYC */}
-          <div className="flex flex-col items-center gap-3">
-            <p className="text-xs font-semibold uppercase tracking-widest text-blue-400">
-              {t("howItWorks.mockup.step2")}
-            </p>
-            <div className="flex flex-1 items-center">
-              <div className="relative z-10 w-full max-w-sm transform lg:rotate-1 transition-transform hover:rotate-0 overflow-hidden rounded-3xl border-8 border-slate-950 bg-slate-800 shadow-2xl">
-                <TelegramHeader
-                  botName={t("howItWorks.mockup.botName")}
-                  botLabel={t("howItWorks.mockup.botLabel")}
-                />
-                <div className="flex flex-col justify-end bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] bg-slate-900/90 bg-blend-overlay h-144 p-4">
-                  {/* Bot KYC message */}
-                  <div className="flex justify-start mb-3">
-                    <div className="inline-block max-w-xs rounded-r-2xl rounded-tl-2xl bg-white px-4 py-3 text-sm leading-relaxed text-slate-900 shadow-sm">
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: t("howItWorks.mockup.kycTitle"),
-                        }}
-                      />
-                      <br />
-                      <br />
-                      {t("howItWorks.mockup.kycBody")}
-                      <br />
-                      <br />
-                      {t("howItWorks.mockup.kycBody2")}
-                      <br />
-                      <br />
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html: t("howItWorks.mockup.kycNeeds"),
-                        }}
-                      />
-                      <br />
-                      <br />
-                      {t("howItWorks.mockup.kycItem1")}
-                      <br />
-                      {t("howItWorks.mockup.kycItem2")}
-                      <br />
-                      <br />
-                      {t("howItWorks.mockup.kycFooter")}
-                    </div>
-                  </div>
-                  {/* KYC buttons */}
-                  <div className="flex flex-col gap-1.5">
-                    <button className="w-full rounded-lg bg-slate-700/80 px-4 py-3 text-center text-sm font-medium text-white">
-                      {t("howItWorks.mockup.kycButton")}
-                    </button>
-                    <button className="w-full rounded-lg bg-slate-700/80 px-4 py-3 text-center text-sm font-medium text-white">
-                      {t("howItWorks.mockup.kycBackButton")}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Arrow 2 */}
-          <div className="hidden text-2xl text-blue-400 lg:flex lg:items-center shrink-0">
-            →
-          </div>
-          <div className="text-2xl text-blue-400 lg:hidden">↓</div>
-
-          {/* Step 3 — Buy & Sell (two mockups) */}
-          <div className="flex flex-col items-center gap-3">
-            <p className="text-xs font-semibold uppercase tracking-widest text-blue-400">
-              {t("howItWorks.mockup.step3")}
-            </p>
-            <div className="flex flex-1 items-center">
-              <div className="flex flex-col gap-4">
-                {/* Buy mockup */}
-                <div className="relative z-10 w-full max-w-sm transform lg:rotate-2 transition-transform hover:rotate-0 overflow-hidden rounded-3xl border-8 border-slate-950 bg-slate-800 shadow-2xl">
-                  <TelegramHeader
-                    botName={t("howItWorks.mockup.botName")}
-                    botLabel={t("howItWorks.mockup.botLabel")}
-                  />
-                  <div className="flex flex-col justify-end bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] bg-slate-900/90 bg-blend-overlay h-72 p-4">
-                    <div className="flex justify-start mb-3">
-                      <div className="inline-block max-w-xs rounded-r-2xl rounded-tl-2xl bg-white px-4 py-3 text-sm leading-relaxed text-slate-900 shadow-sm">
-                        <span className="font-bold">
-                          {t("howItWorks.mockup.buyTitle")}
-                        </span>
-                        <br />
-                        <br />
-                        {t("howItWorks.mockup.buyBody")}
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-1.5">
-                      <div className="grid grid-cols-2 gap-1.5">
-                        <button className="rounded-lg bg-slate-700/80 px-3 py-2.5 text-xs font-medium text-white">
-                          {t("howItWorks.mockup.buyOption1")}
-                        </button>
-                        <button className="rounded-lg bg-slate-700/80 px-3 py-2.5 text-xs font-medium text-white">
-                          {t("howItWorks.mockup.buyOption2")}
-                        </button>
-                        <button className="rounded-lg bg-slate-700/80 px-3 py-2.5 text-xs font-medium text-white">
-                          {t("howItWorks.mockup.buyOption3")}
-                        </button>
-                        <button className="rounded-lg bg-slate-700/80 px-3 py-2.5 text-xs font-medium text-white">
-                          {t("howItWorks.mockup.buyCustom")}
-                        </button>
-                      </div>
-                      <button className="w-full rounded-lg bg-slate-700/80 px-3 py-2.5 text-xs font-medium text-white">
-                        {t("howItWorks.mockup.backButton")}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                {/* Sell mockup */}
-                <div className="relative z-10 w-full max-w-sm transform lg:-rotate-1 transition-transform hover:rotate-0 overflow-hidden rounded-3xl border-8 border-slate-950 bg-slate-800 shadow-2xl">
-                  <TelegramHeader
-                    botName={t("howItWorks.mockup.botName")}
-                    botLabel={t("howItWorks.mockup.botLabel")}
-                  />
-                  <div className="flex flex-col justify-end bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] bg-slate-900/90 bg-blend-overlay h-72 p-4">
-                    <div className="flex justify-start mb-3">
-                      <div className="inline-block max-w-xs rounded-r-2xl rounded-tl-2xl bg-white px-4 py-3 text-sm leading-relaxed text-slate-900 shadow-sm">
-                        <span className="font-bold">
-                          {t("howItWorks.mockup.sellTitle")}
-                        </span>
-                        <br />
-                        <br />
-                        {t("howItWorks.mockup.sellBody")}
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-1.5">
-                      <div className="grid grid-cols-2 gap-1.5">
-                        <button className="rounded-lg bg-slate-700/80 px-3 py-2.5 text-xs font-medium text-white">
-                          {t("howItWorks.mockup.sellOption1")}
-                        </button>
-                        <button className="rounded-lg bg-slate-700/80 px-3 py-2.5 text-xs font-medium text-white">
-                          {t("howItWorks.mockup.sellOption2")}
-                        </button>
-                        <button className="rounded-lg bg-slate-700/80 px-3 py-2.5 text-xs font-medium text-white">
-                          {t("howItWorks.mockup.sellOption3")}
-                        </button>
-                        <button className="rounded-lg bg-slate-700/80 px-3 py-2.5 text-xs font-medium text-white">
-                          {t("howItWorks.mockup.sellCustom")}
-                        </button>
-                      </div>
-                      <button className="w-full rounded-lg bg-slate-700/80 px-3 py-2.5 text-xs font-medium text-white">
-                        {t("howItWorks.mockup.backButton")}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          {/* Toggle */}
+          <div className="mt-4 inline-flex rounded-xl border border-white/10 bg-[#1A1B22] p-1">
+            <button
+              type="button"
+              onClick={() => setActiveTab("buy")}
+              className={`rounded-lg px-5 py-2 text-xs font-bold transition-all ${
+                activeTab === "buy"
+                  ? "bg-[#E84142] text-white shadow-md"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              {t("howItWorks.buyTab")}
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab("sell")}
+              className={`rounded-lg px-5 py-2 text-xs font-bold transition-all ${
+                activeTab === "sell"
+                  ? "bg-[#E84142] text-white shadow-md"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              {t("howItWorks.sellTab")}
+            </button>
           </div>
         </div>
 
-        <div className="relative z-20 mt-6 flex justify-center">
+        {/* Steps grid */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {steps.map((step, idx) => {
+            const Icon = icons[idx];
+            return (
+              <div
+                key={`${activeTab}-${idx}`}
+                className="group flex flex-col justify-between rounded-2xl border border-white/5 bg-[#14151B] p-6 transition-all hover:border-[#E84142]/40 hover:bg-[#181A22]"
+              >
+                <div className="mb-6 flex items-center justify-between">
+                  <span className="font-mono text-3xl font-black text-white/20 transition-colors group-hover:text-[#E84142]/50">
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#E84142]/20 bg-[#E84142]/10 text-[#E84142]">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="mb-2 text-base font-bold text-white transition-colors group-hover:text-[#E84142]">
+                    {step.title}
+                  </h3>
+                  <p className="text-xs leading-relaxed text-slate-400 sm:text-sm">
+                    {step.description}
+                  </p>
+                </div>
+
+                <div className="mt-6 flex items-center gap-1.5 border-t border-white/5 pt-4 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-[#E84142]" />
+                  <span>{t("howItWorks.automated")}</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* CTA */}
+        <div className="mt-12 text-center">
           <button
+            type="button"
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-2 rounded-full border border-blue-500 bg-blue-600 px-8 py-3 font-bold text-white shadow-lg transition-all hover:scale-105 hover:bg-blue-500 hover:shadow-xl"
+            className="inline-flex items-center gap-2 rounded-xl bg-linear-to-r from-[#E84142] to-[#FF5A5B] px-6 py-3 text-xs font-bold text-white shadow-lg shadow-[#E84142]/25 transition-all hover:brightness-110"
           >
-            {t("howItWorks.cta")}
+            <span>{t("howItWorks.cta")}</span>
+            <ArrowRight className="h-3.5 w-3.5" />
           </button>
         </div>
       </div>
-      <BuySellModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+
+      <BuySellModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 };

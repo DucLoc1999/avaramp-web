@@ -38,16 +38,16 @@ export const RampHeader = ({ onLogout, onSettings }: RampHeaderProps) => {
   }, [menuOpen]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 shadow-sm backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/90">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0B0C0E]/90 shadow-sm backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-2xl items-center justify-between gap-4 px-4">
         <a href="/" className="flex items-center gap-3">
           <img
-            src="/exchanges/avaRamp.png"
+            src="/logo.png"
             alt="AvaRamp"
-            className="h-8 w-8 rounded-lg border border-slate-200 dark:border-slate-600"
+            className="h-8 w-8 rounded-lg border border-white/10"
           />
-          <span className="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-            Ava<span className="text-blue-600">Ramp</span>
+          <span className="text-xl font-bold tracking-tight text-white">
+            Ava<span className="text-[#E84142]">Ramp</span>
           </span>
         </a>
 
@@ -56,7 +56,7 @@ export const RampHeader = ({ onLogout, onSettings }: RampHeaderProps) => {
           <button
             type="button"
             onClick={() => setIsDark((d) => !d)}
-            className="rounded-lg border border-slate-200 p-2 text-slate-500 transition-colors hover:text-blue-600 dark:border-slate-700 dark:text-slate-400 dark:hover:text-blue-400"
+            className="rounded-lg border border-white/10 p-2 text-slate-400 transition-colors hover:text-[#E84142]"
             aria-label={isDark ? t("ramp.lightMode") : t("ramp.darkMode")}
           >
             {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
@@ -65,13 +65,13 @@ export const RampHeader = ({ onLogout, onSettings }: RampHeaderProps) => {
             <button
               type="button"
               onClick={() => setMenuOpen(!menuOpen)}
-              className="rounded-lg border border-slate-200 p-2 text-slate-500 transition-colors hover:text-blue-600 dark:border-slate-700 dark:text-slate-400 dark:hover:text-blue-400"
+              className="rounded-lg border border-white/10 p-2 text-slate-400 transition-colors hover:text-[#E84142]"
               aria-label="Menu"
             >
               <Menu className="h-4 w-4" />
             </button>
             {menuOpen && (
-              <div className="absolute right-0 mt-2 w-48 rounded-xl border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800">
+              <div className="absolute right-0 mt-2 w-48 rounded-xl border border-white/10 bg-[#1C1D24] shadow-2xl">
                 {onSettings && (
                   <button
                     type="button"
@@ -79,7 +79,7 @@ export const RampHeader = ({ onLogout, onSettings }: RampHeaderProps) => {
                       setMenuOpen(false);
                       onSettings();
                     }}
-                    className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-700"
+                    className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm font-medium text-slate-200 transition-colors hover:bg-white/5"
                   >
                     <Settings className="h-4 w-4" />
                     {t("ramp.settings") || "Settings"}
@@ -92,7 +92,7 @@ export const RampHeader = ({ onLogout, onSettings }: RampHeaderProps) => {
                       setMenuOpen(false);
                       onLogout();
                     }}
-                    className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm font-medium text-rose-600 transition-colors hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-900/20"
+                    className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm font-medium text-[#FF5A5B] transition-colors hover:bg-[#E84142]/10"
                   >
                     <LogOut className="h-4 w-4" />
                     {t("ramp.logout")}

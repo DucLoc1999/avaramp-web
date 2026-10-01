@@ -1,11 +1,16 @@
 {
   "nav": {
-    "whyAvaRamp": "Why AvaRamp?",
+    "whyAvaRamp": "Why AvaRamp",
     "process": "Process",
     "liveRates": "Live Rates",
+    "supported": "Supported",
+    "developers": "Developers",
     "faq": "FAQ",
     "contactSupport": "Contact Support",
     "buySell": "Buy/Sell"
+  },
+  "header": {
+    "banner": "Avalanche C-Chain sub-second settlement • Flat 0.5% fee • Instant VietQR under 30s"
   },
   "hero": {
     "badge": "24/7 TELEGRAM BOT",
@@ -31,179 +36,247 @@
     "youReceive": "You receive",
     "fee": "Fee",
     "nextRefresh": "Next refresh",
-    "zeroKnowledge": "Zero-Knowledge Security. End-to-end encrypted."
+    "zeroKnowledge": "Zero-Knowledge Security. End-to-end encrypted.",
+    "badgeNew": "⚡ NATIVE AVALANCHE FIAT ON & OFF RAMP",
+    "headlinePre": "Instant Fiat Gateway on ",
+    "headlineHighlight": "Avalanche C-Chain",
+    "headlinePost": " in under 30 seconds",
+    "subtitle": "Convert local fiat directly into native AVAX, USDC & USDT with automated VietQR banking. Zero P2P friction, zero frozen account risks, flat 0.5% fee delivered straight to your non-custodial wallet.",
+    "ctaTelegram": "Launch Telegram Bot",
+    "ctaCompare": "Compare Live Rates",
+    "statSettlementLabel": "Avg Settlement Time",
+    "statSettlementVal": "< 25 sec",
+    "statFeeLabel": "Platform Fee",
+    "statFeeVal": "0.5% Flat",
+    "statSuccessLabel": "Success Rate",
+    "statSuccessVal": "99.98%",
+    "statVolumeLabel": "Total Volume Ramped",
+    "statVolumeVal": "$52,000,000+",
+    "railsLabel": "Supported rails:",
+    "widgetTitle": "Live VND Rates",
+    "nonCustodial": "100% Non-Custodial",
+    "vietQrFree": "VietQR 24/7 Free",
+    "zeroSlippage": "Zero Slippage",
+    "buyTab": "Buy Crypto",
+    "sellTab": "Sell Crypto",
+    "liveIn": "Live rate in {{seconds}}s",
+    "rateUnavailable": "Rate unavailable right now",
+    "rateLabel": "Guaranteed rate",
+    "feeLabel": "Platform fee",
+    "networkFeeLabel": "Avalanche gas fee",
+    "networkFeeVal": "~0.0015 AVAX (< 400đ)",
+    "speedLabel": "Settlement speed",
+    "speedVal": "< 30s (Napas + AVAX)",
+    "buyAction": "Buy {{token}} via Bank",
+    "sellAction": "Sell {{token}} for VND"
   },
   "features": {
-    "eyebrow": "WHY CHOOSE AVARAMP?",
-    "title": "Built for Vietnamese Traders",
+    "eyebrow": "WHY CHOOSE AVARAMP",
+    "title": "Next-Gen Fiat On/Off Ramp Engineered for Avalanche",
+    "subtitle": "Combining Avalanche C-Chain's sub-second transaction finality with automated 24/7 bank rails for the fastest, safest crypto-fiat gateway.",
     "items": [
       {
-        "title": "Lightning Fast Execution",
-        "description": "Automated matching engine settles VND directly to your bank in seconds."
+        "title": "Sub-Second Settlement (< 30s)",
+        "description": "Leveraging Avalanche C-Chain's rapid finality, your tokens land in your personal wallet seconds after VietQR bank confirmation."
       },
       {
-        "title": "Best VND Exchange Rates",
-        "description": "We aggregate liquidity to guarantee the tightest spreads for USDT."
+        "title": "100% Non-Custodial Security",
+        "description": "We never hold your crypto assets or private keys. All funds are dispatched directly to your self-hosted web3 wallet."
       },
       {
-        "title": "Absolute Security",
-        "description": "Non-custodial design. You hold your keys, we handle the fiat routing."
+        "title": "Flat 0.5% Fee - Zero Hidden Spread",
+        "description": "No predatory spreads or withdrawal markups. What you see on the calculator is strictly what you pay and receive."
       },
       {
-        "title": "24/7 Local Support",
-        "description": "Dedicated Vietnamese support team available directly within Telegram."
+        "title": "Automated 24/7 via 50+ Banks",
+        "description": "Seamless 24/7 bank rails with VietQR automated validation across all major financial institutions."
+      },
+      {
+        "title": "Zero Bank Freezing Risk",
+        "description": "Clean, verified corporate transaction accounts protect your bank records from tainted P2P funds and freeze risks."
+      },
+      {
+        "title": "Instant 24/7 Support",
+        "description": "Dedicated round-the-clock live support team via Telegram and web chat. Dispute resolution handled in under 5 minutes."
       }
     ]
   },
   "howItWorks": {
-    "eyebrow": "HOW IT WORKS",
-    "title": "From Crypto to VND in 3 Steps",
-    "cta": "📊 Buy/Sell Now",
-    "steps": [
+    "eyebrow": "EASY 4-STEP PROCESS",
+    "title": "How Does On/Off-Ramping Work?",
+    "subtitle": "Our 100% automated protocol ensures seamless execution without manual merchant negotiation.",
+    "buyTab": "Buy Crypto (On-Ramp)",
+    "sellTab": "Sell Crypto (Off-Ramp)",
+    "automated": "100% Automated",
+    "cta": "Try On/Off-Ramping Now",
+    "buySteps": [
       {
-        "title": "📱 Open Telegram and find our bot",
-        "description": "👉 Press \"Start\" to activate the bot and complete a quick KYC verification."
+        "title": "Select Amount & Token",
+        "description": "Input fiat amount and select your desired token on Avalanche C-Chain."
       },
       {
-        "title": "💱 Choose Buy or Sell — confirm & receive",
-        "description": "Select USDT, enter the amount, confirm the rate, and funds settle in seconds."
+        "title": "Enter Avalanche Address",
+        "description": "Provide your self-custodial Avalanche wallet address to receive tokens directly."
+      },
+      {
+        "title": "Scan VietQR Banking",
+        "description": "Open any mobile banking app and scan the dynamic VietQR code to settle payment."
+      },
+      {
+        "title": "Receive Crypto in 30s",
+        "description": "Our automated smart engine releases tokens to your wallet. Verify on Snowtrace."
       }
     ],
-    "mockup": {
-      "step1": "Step 1 — Start the Bot",
-      "step2": "Step 2 — Verify Identity",
-      "step3": "Step 3 — Buy or Sell",
-      "botName": "AvaRamp | Buy & Sell AVAX, USDT",
-      "botLabel": "bot",
-      "start": "/start",
-      "welcome": "👋 Xin chào <b>Loc Nguyen</b>!",
-      "welcomeBody": "🤖 Chào mừng bạn đến với Bot Mua/Bán USDT tự động!",
-      "welcomeFeature1": "💰 Tỷ giá cạnh tranh nhất thị trường",
-      "welcomeFeature2": "⚡ Giao dịch nhanh chóng, an toàn",
-      "welcomeFeature3": "🔒 Bảo mật tuyệt đối",
-      "welcomeMenuPrompt": "Vui lòng chọn chức năng bên dưới:",
-      "menuCheckRate": "💹 Kiểm tra tỷ giá",
-      "menuBuy": "💰 Mua USDT",
-      "menuSell": "🦊 Bán USDT",
-      "menuKyc": "📂 Xác minh KYC 🔴",
-      "menuBank": "🏦 Ngân hàng 🔴",
-      "menuWallet": "💎 Ví crypto 🔴",
-      "menuAccount": "👤 Tài khoản",
-      "menuReferral": "🎁 Giới thiệu bạn bè",
-      "menuSupport": "📞 Liên hệ hỗ trợ",
-      "kycTitle": "🔓 <b>XÁC MINH DANH TÍNH (KYC)</b>",
-      "kycBody": "Bạn chưa hoàn thành xác minh danh tính.",
-      "kycBody2": "Để sử dụng đầy đủ các tính năng giao dịch, vui lòng hoàn thành quy trình KYC.",
-      "kycNeeds": "<b>Quy trình KYC bao gồm:</b>",
-      "kycItem1": "1️⃣ Xác minh số điện thoại",
-      "kycItem2": "2️⃣ Cung cấp thông tin CCCD/CMND/Passport",
-      "kycFooter": "Nhấn nút bên dưới để bắt đầu!",
-      "kycButton": "🚀 Bắt đầu KYC",
-      "kycBackButton": "⬅️ Quay lại Menu",
-      "buyTitle": "💰 MUA USDT",
-      "buyBody": "Vui lòng chọn số lượng USDT muốn mua:",
-      "buyOption1": "10 USDT",
-      "buyOption2": "20 USDT",
-      "buyOption3": "50 USDT",
-      "buyCustom": "✏️ Nhập số khác",
-      "sellTitle": "🦊 BÁN USDT",
-      "sellBody": "Vui lòng chọn số lượng USDT muốn bán:",
-      "sellOption1": "10 USDT",
-      "sellOption2": "50 USDT",
-      "sellOption3": "100 USDT",
-      "sellCustom": "✏️ Nhập số khác",
-      "backButton": "⬅️ Quay lại Menu"
-    }
+    "sellSteps": [
+      {
+        "title": "Choose Crypto to Sell",
+        "description": "Enter the amount of AVAX or USDC you wish to convert into local fiat."
+      },
+      {
+        "title": "Enter Bank Details",
+        "description": "Provide your beneficiary bank name, account number, and account holder name."
+      },
+      {
+        "title": "Deposit to Escrow Vault",
+        "description": "Send the designated crypto to AvaRamp's audited Avalanche escrow vault."
+      },
+      {
+        "title": "Instant Bank Payout",
+        "description": "Once on-chain block confirms, VND is dispatched to your bank in seconds via 24/7 rails."
+      }
+    ]
   },
   "rates": {
-    "eyebrow": "Live Rates",
-    "title": "Transparent, real-time exchange rates",
-    "description": "Live prices from the most popular P2P platforms in Vietnam.",
-    "asset": "Asset",
-    "network": "Network",
-    "buyVnd": "Buy (VND)",
-    "sellVnd": "Sell (VND)",
-    "refreshNote": "Rates refresh every 60 seconds. Final rate confirmed at trade execution.",
-    "linkedWith": "Linked with over",
-    "banks": "50+ banks,",
-    "ewallets": "7+ e-wallets",
-    "noHistory": "No historical data yet",
-    "marketComparison": "Market Comparison",
-    "bestRate": "Best Rate",
-    "lowestFee": "Lowest Fee",
-    "ourRate": "AvaRamp",
-    "buyNow": "Buy Now",
-    "refreshingIn": "Refreshing in {{seconds}}s",
-    "finalRate": "Final rate confirmed at trade execution.",
-    "days": "{{count}} days",
-    "chartOurTitle": "USDT / VND — AvaRamp (Buy / Sell)",
-    "chartCompareBuy": "Compare USDT P2P Buy Price",
-    "chartCompareSell": "Compare USDT P2P Sell Price",
-    "chartBuy": "Buy",
-    "chartSell": "Sell",
-    "buy": "Buy",
-    "sell": "Sell"
+    "eyebrow": "LIVE MARKET COMPARISON",
+    "title": "Live Rate Comparison: AvaRamp vs P2P Exchanges",
+    "description": "We aggregate direct liquidity on Avalanche C-Chain, cutting out P2P middleman spreads and hidden exchange charges for the best possible rate.",
+    "tokenAvax": "AVAX (Avalanche)",
+    "tokenUsdc": "USDC (Native C-Chain)",
+    "colExchange": "Platform",
+    "colBuyRate": "Buy Price (You Pay)",
+    "colSellRate": "Sell Price (You Get)",
+    "colFee": "Fee Rate",
+    "colSpeed": "Settlement",
+    "colAction": "Action",
+    "recommended": "Recommended",
+    "bestRate": "BEST RATE",
+    "buyNow": "Buy now",
+    "middleman": "P2P Middleman",
+    "savingsTip": "💡 Buying $500 on AvaRamp saves you $12 - $25 compared to standard P2P exchange spreads!",
+    "highlightOurs": "Lowest Fee & Direct Non-Custodial",
+    "highlightBinance": "Requires KYC & Escrow Chat",
+    "highlightBybit": "Frequent merchant disputes",
+    "highlightRemitano": "High withdrawal fee on AVAX",
+    "highlightOkx": "Complex verification"
+  },
+  "supported": {
+    "eyebrow": "SUPPORTED ECOSYSTEM",
+    "title": "Supported Avalanche Assets & Banking Rails",
+    "subtitle": "Comprehensive coverage of primary Avalanche C-Chain assets coupled with direct integration across 50+ Vietnamese banks via Napas 24/7.",
+    "tokensHeading": "Avalanche Tokens",
+    "banksHeading": "50+ Supported Banks",
+    "walletsHeading": "Compatible Wallets",
+    "napasNote": "Instant Napas 24/7 transfers",
+    "nativeGas": "Native Gas",
+    "copyContract": "Copy contract",
+    "wallets": [
+      { "name": "Core Wallet", "desc": "Official Avalanche ecosystem wallet", "tag": "Recommended" },
+      { "name": "MetaMask", "desc": "Popular global Web3 wallet", "tag": "C-Chain" },
+      { "name": "Rabby Wallet", "desc": "Optimized multi-chain DeFi security", "tag": "DeFi" },
+      { "name": "Coinbase Wallet", "desc": "Secure self-custody wallet", "tag": "Web3" }
+    ]
+  },
+  "developers": {
+    "eyebrow": "FOR DEVELOPERS & DAPPS",
+    "title": "Integrate Fiat On/Off-Ramp with 2 Lines of Code",
+    "subtitle": "Allow your users to on-ramp directly inside your Avalanche GameFi, DEX, or NFT marketplace without leaving your application.",
+    "partnerBadge": "Partner Program:",
+    "partnerDesc": "Earn up to 40% revenue share from all transaction fees generated by your users.",
+    "getKey": "Get Partner API Key",
+    "docsBtn": "Explore Full API Docs",
+    "copyCode": "Copy code",
+    "copied": "Copied",
+    "tabReact": "React Widget",
+    "tabJs": "Javascript SDK",
+    "tabApi": "REST API"
   },
   "na": "N/A",
   "feedback": {
-    "eyebrow": "USER FEEDBACK",
-    "title": "Trusted by the OTC community",
-    "description": "Users love our speed, transparent rates, and support team that's always ready to help.",
+    "eyebrow": "COMMUNITY TRUST",
+    "title": "Trusted by Traders & Builders on Avalanche",
+    "description": "Thousands of on/off-ramp transactions settled safely and transparently via our automated gateway.",
     "items": [
       {
-        "quote": "Super fast USDT purchase here, got the money in under 5 minutes.",
-        "name": "Thai Anh",
-        "role": "OTC Trader"
+        "quote": "Used to buy AVAX on CEX and wait 15 minutes for withdrawals. With AvaRamp, I scan VietQR and AVAX lands in my Core Wallet in 20 seconds flat. Far cheaper and smoother than Binance P2P.",
+        "name": "Hoàng Minh",
+        "role": "DeFi Trader & Avalanche Enthusiast",
+        "badge": "Frequent Trader",
+        "volume": "240M+ VND Ramped"
       },
       {
-        "quote": "The Telegram bot is easy to use and the exchange rate is transparent.",
-        "name": "Minh Anh",
-        "role": "Investor"
+        "quote": "Integrating the AvaRamp widget into our Avalanche NFT launchpad boosted our conversion by 300%. Web2 users scan QR and mint directly without bridging headaches.",
+        "name": "Sarah Jenkins",
+        "role": "Avalanche Ecosystem Builder",
+        "badge": "dApp Partner",
+        "volume": "15,000+ API Calls"
       },
       {
-        "quote": "Genuine 24/7 support, sent to the wrong network and got help immediately.",
-        "name": "Do Hung",
-        "role": "POD Seller"
-      },
-      {
-        "quote": "Best rates on the market with fully transparent transactions.",
-        "name": "Lan Anh",
-        "role": "Content Creator"
-      },
-      {
-        "quote": "Fast withdrawals, no stuck orders like other platforms.",
-        "name": "Duc Hieu",
-        "role": "Dropshipper"
-      },
-      {
-        "quote": "Rock-solid system — never encountered a single technical issue.",
-        "name": "Nguyen Nam",
-        "role": "Freelancer"
+        "quote": "I get paid in USDC on Avalanche C-Chain. Off-ramping to my local bank account takes literally 30 seconds with clean banking records and zero P2P fraud risk.",
+        "name": "Quốc Bảo",
+        "role": "Web3 Freelancer & Developer",
+        "badge": "Off-ramp User",
+        "volume": "180M+ VND Ramped"
       }
     ]
   },
   "faq": {
-    "eyebrow": "FAQ",
+    "eyebrow": "FREQUENTLY ASKED QUESTIONS",
     "title": "Frequently Asked Questions",
-    "aboutUs": "ABOUT US",
-    "aboutTitle": "AvaRamp – The bridge to Web3",
-    "aboutDescription": "We connect Web3 to Vietnam's finance with secure, non-custodial gateways that move fiat fast at rates.",
+    "subtitle": "Everything you need to know about rates, processing times, non-custodial custody, and limits.",
+    "searchPlaceholder": "Search questions...",
+    "noResults": "No questions match your search.",
+    "categories": {
+      "all": "All",
+      "general": "General",
+      "fees": "Fees & Rates",
+      "security": "Security",
+      "integration": "Integration"
+    },
+    "support": {
+      "title": "Still have questions?",
+      "description": "Our support engineers are available 24/7 via Telegram and Live Chat to assist you.",
+      "button": "Contact 24/7 Support"
+    },
     "items": [
       {
-        "question": "Is AvaRamp safe for non-custodial crypto trading and secure fiat routing for your bank account?",
-        "answer": "Absolutely. AvaRamp operates on a non-custodial model. We never hold your crypto assets. Smart contracts and automated matching engines ensure that fiat is routed securely and directly to your provided bank account."
+        "category": "general",
+        "question": "How does AvaRamp work?",
+        "answer": "AvaRamp is an automated fiat gateway tailored for Avalanche C-Chain. For on-ramp (buying), scan VietQR with your banking app; our smart engine verifies payment in 5-10 seconds and instantly transfers AVAX or USDC directly to your non-custodial wallet. For off-ramp (selling), send tokens to the escrow contract and VND is instantly wired to your bank."
       },
       {
-        "question": "How long does a VND withdrawal take from AvaRamp, once your transaction is confirmed on-chain?",
-        "answer": "Thanks to our direct NAPAS integration, 99% of VND withdrawals are processed and settled to your domestic Vietnam bank account within 3 to 30 seconds after the blockchain transaction is confirmed."
+        "category": "general",
+        "question": "Do I need KYC verification?",
+        "answer": "No cumbersome KYC is required for standard daily transactions under 25,000,000 VND (~$1,000 USD). You simply input your Avalanche wallet address, scan the QR code, and receive crypto immediately."
       },
       {
-        "question": "Are there trading limits for USDT, and how do verified accounts increase per-transaction caps quickly today?",
-        "answer": "Unverified accounts can trade up to $500 per day. By completing a quick basic verification within the bot, you can increase your limits up to $100,000 per transaction for institutional scale needs."
+        "category": "fees",
+        "question": "What are the transaction fees on AvaRamp?",
+        "answer": "AvaRamp charges a flat, ultra-competitive 0.5% fee on both buy and sell orders. There are zero hidden spreads or markup fees. Avalanche C-Chain gas fees are microscopic (< 0.002 AVAX, under $0.05)."
       },
       {
-        "question": "Is the Telegram bot active during Vietnamese holidays, so you can on-ramp and off-ramp without delays?",
-        "answer": "Yes! Our system is fully automated and runs 24/7/365. You can on-ramp and off-ramp during Tet holidays, weekends, and in the middle of the night without any delays."
+        "category": "security",
+        "question": "Is AvaRamp non-custodial?",
+        "answer": "Absolutely not. AvaRamp is 100% non-custodial. Cryptocurrencies are dispatched straight from liquidity vaults into your self-custodial wallet (Core Wallet, MetaMask, Rabby). You always maintain total sovereignty over your private keys."
+      },
+      {
+        "category": "security",
+        "question": "How fast is the transaction settled?",
+        "answer": "Thanks to Avalanche's sub-second transaction finality and our 24/7 automated banking bridge via VietQR/Napas, typical transactions settle in just 15 to 30 seconds after payment confirmation."
+      },
+      {
+        "category": "integration",
+        "question": "Can I integrate AvaRamp into my dApp or Avalanche game?",
+        "answer": "Yes! AvaRamp provides an embeddable React widget and developer REST API. Enable fiat checkout inside your DeFi dApp, NFT marketplace, or GameFi project on Avalanche with just a single component tag, plus an attractive partner revenue-sharing model."
       }
     ]
   },
@@ -225,9 +298,29 @@
   "footer": {
     "termsOfService": "Terms of Service",
     "privacyPolicy": "Privacy Policy",
+    "contactSupport": "Contact Support",
     "apiPartners": "API Partners",
     "joinCommunity": "📱 Join Community",
-    "copyright": "© 2026 Orbit Labs. All rights reserved."
+    "copyright": "© 2026 Orbit Labs. All rights reserved.",
+    "tagline": "Next-generation fiat on/off-ramp built for Avalanche C-Chain. Sub-second settlement, lowest fees, non-custodial.",
+    "badgeChain": "Avalanche C-Chain Native",
+    "badgeNapas": "Napas 247 / VietQR",
+    "colProducts": "Products",
+    "colResources": "Resources",
+    "colLegal": "Legal",
+    "linkOnRamp": "Buy AVAX (On-Ramp)",
+    "linkOffRamp": "Withdraw VND (Off-Ramp)",
+    "linkLiveRates": "Live Rates",
+    "linkTelegramBot": "Telegram Bot 24/7",
+    "linkWhyAvaRamp": "Why AvaRamp",
+    "linkProcess": "How It Works",
+    "linkFaq": "FAQ",
+    "linkExplorer": "Snowtrace Explorer",
+    "linkNonCustodial": "Non-Custodial Architecture",
+    "disclaimer": "Disclaimer: AvaRamp is a non-custodial payment routing protocol. AvaRamp never holds user cryptocurrency or private keys. All blockchain transfers settle natively on the Avalanche Network.",
+    "trustAudited": "Security Audited",
+    "trustNonCustodial": "100% Non-Custodial",
+    "trustSettlement": "Sub-Second Settlement"
   },
   "ramp": {
     "greeting": "Hello!",
